@@ -4,7 +4,7 @@
   <title><![CDATA[My Octopress Blog]]></title>
   <link href="http://wenboqiu.github.io/atom.xml" rel="self"/>
   <link href="http://wenboqiu.github.io/"/>
-  <updated>2014-01-30T10:24:32+08:00</updated>
+  <updated>2014-01-30T18:10:28+08:00</updated>
   <id>http://wenboqiu.github.io/</id>
   <author>
     <name><![CDATA[Your Name]]></name>
@@ -12,5 +12,14 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[新的开始]]></title>
+    <link href="http://wenboqiu.github.io/blog/2014/01/30/xin-de-kai-shi/"/>
+    <updated>2014-01-30T11:24:01+08:00</updated>
+    <id>http://wenboqiu.github.io/blog/2014/01/30/xin-de-kai-shi</id>
+    <content type="html"><![CDATA[<p>通过写博客来记录自己的成长，出发。。</p>
+]]></content>
+  </entry>
   
 </feed>
