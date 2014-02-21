@@ -4,7 +4,7 @@
   <title><![CDATA[Wenbo's Blog]]></title>
   <link href="http://wenboqiu.github.io/atom.xml" rel="self"/>
   <link href="http://wenboqiu.github.io/"/>
-  <updated>2014-02-15T23:00:50+08:00</updated>
+  <updated>2014-02-21T22:45:49+08:00</updated>
   <id>http://wenboqiu.github.io/</id>
   <author>
     <name><![CDATA[Wenbo Qiu]]></name>
@@ -12,6 +12,22 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[读书笔记之代码复查]]></title>
+    <link href="http://wenboqiu.github.io/blog/2014/02/21/du-shu-bi-ji-zhi-dai-ma-fu-cha/"/>
+    <updated>2014-02-21T22:16:23+08:00</updated>
+    <id>http://wenboqiu.github.io/blog/2014/02/21/du-shu-bi-ji-zhi-dai-ma-fu-cha</id>
+    <content type="html"><![CDATA[<p>前一段时间买了这本代码大全2，厚厚一大本，最近每天基本都要加班，于是早上或者晚上抽空翻一翻。今天看到一段文字，无比认同，忍不住摘录下来分享。</p>
+
+<p>摘录（协同构建有利于传授公司文化以及编程专业知识）：</p>
+
+<blockquote><p>复查是一个很重要的机制，它可以让程序员得到关于他们自己代码的反馈。<br/>程序员除了需要得到他们是否很好地遵循了标志的反馈之外，还需要得到程序设计主观方面的反馈，例如格式、注释、变量名、局部变量和全局变量的使用、设计方法以及“我们这里采用的解决方法”等。刚出道的编程人员需要那些有更丰富知识的前辈给予指导，而资深程序员们往往太忙而没时间同他人分享他们的知识。复查为这两种人提供了一个技术交流的平台，所以，无论在未来还是现在，复查都是培养新人以提高代码质量的好机会。</p></blockquote>
+
+
+<p>在平时工作中，我们有时候会抱怨现在公司没有太多的技术氛围，其实在同一个项目组内，程序员与程序员之间还是存在很多沟通的盲区，往往每位程序员负责一个独立的模块，如果有空，相互之间分享各自模块的设计思路，互通有无，也是极好的。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[2014新年展望]]></title>
