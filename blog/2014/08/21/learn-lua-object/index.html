@@ -114,6 +114,9 @@
 
 <p>Table是Lua八种基础类型中的一种，也是最重要的特性之一，其他语言中的数组，字典，在Lua中都可以通过Table来实现。</p>
 
+<!--more-->
+
+
 <p>在Lua中，每一种类型自身都有一个metatable，中文翻译成元表，它的作用在于提供了一种改变对象默认行为的途径，Lua中每种类型都有默认的操作方式，比如说数字的加减乘除，字符串的连接等，当两个数字相加，比如a+b，Lua会先查看a的metatable，看里面<em><em>add有没有定义，如果没有定义，则调用默认的+规则，否则会调用</em>add来执行+的操作。又比如两个table值默认是不支持+操作的，但是通过定义metable中的</em>add，我们可以实现表的相加。</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
