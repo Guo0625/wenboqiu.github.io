@@ -83,7 +83,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2014/08/21/learn-lua-object/">Lua 面向对象实现</a></h1>
+      <h1 class="entry-title"><a href="/blog/2014/08/21/learn-lua-object/">Lua 面向对象实现(Part I)</a></h1>
     
     
       <p class="meta">
@@ -135,21 +135,21 @@
 <span class='line-number'>14</span>
 <span class='line-number'>15</span>
 <span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='lua'><span class='line'><span class="err">–定义</span><span class="mi">2</span><span class="err">个表</span>
+</pre></td><td class='code'><pre><code class='lua'><span class='line'><span class="err">–</span><span class="o">-</span><span class="err">定义</span><span class="mi">2</span><span class="err">个表</span>
 </span><span class='line'><span class="n">a</span> <span class="o">=</span> <span class="p">{</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">}</span>
 </span><span class='line'><span class="n">b</span> <span class="o">=</span> <span class="p">{</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">}</span>
-</span><span class='line'><span class="err">–用</span><span class="n">c</span><span class="err">来做</span><span class="n">Metatable</span>
+</span><span class='line'><span class="err">–</span><span class="o">-</span><span class="err">用</span><span class="n">c</span><span class="err">来做</span><span class="n">Metatable</span>
 </span><span class='line'><span class="n">c</span> <span class="o">=</span> <span class="p">{}</span>
-</span><span class='line'><span class="err">–重定义加法操作</span>
+</span><span class='line'><span class="err">–</span><span class="o">-</span><span class="err">重定义加法操作</span>
 </span><span class='line'><span class="n">c</span><span class="p">.</span><span class="n">__add</span> <span class="o">=</span> <span class="k">function</span><span class="p">(</span><span class="n">op1</span><span class="p">,</span> <span class="n">op2</span><span class="p">)</span>
-</span><span class='line'><span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">item</span> <span class="k">in</span> <span class="nb">ipairs</span><span class="p">(</span><span class="n">op2</span><span class="p">)</span> <span class="k">do</span>
-</span><span class='line'><span class="nb">table.insert</span><span class="p">(</span><span class="n">op1</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">item</span> <span class="k">in</span> <span class="nb">ipairs</span><span class="p">(</span><span class="n">op2</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>      <span class="nb">table.insert</span><span class="p">(</span><span class="n">op1</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">op1</span>
 </span><span class='line'><span class="k">end</span>
-</span><span class='line'><span class="k">return</span> <span class="n">op1</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'><span class="err">–将</span><span class="n">a</span><span class="err">的</span><span class="n">Metatable</span><span class="err">设置为</span><span class="n">c</span>
+</span><span class='line'><span class="err">–</span><span class="o">-</span><span class="err">将</span><span class="n">a</span><span class="err">的</span><span class="n">Metatable</span><span class="err">设置为</span><span class="n">c</span>
 </span><span class='line'><span class="nb">setmetatable</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
-</span><span class='line'><span class="err">–</span><span class="n">d</span><span class="err">现在的样子是</span><span class="p">{</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">}</span>
+</span><span class='line'><span class="err">–</span><span class="o">-</span><span class="n">d</span><span class="err">现在的样子是</span><span class="p">{</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">}</span>
 </span><span class='line'><span class="n">d</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
 </span></code></pre></td></tr></table></div></figure>
 
@@ -179,14 +179,14 @@
 </span><span class='line'><span class="n">Bird</span><span class="p">.</span><span class="n">__index</span> <span class="o">=</span> <span class="n">Bird</span>
 </span><span class='line'>
 </span><span class='line'><span class="k">function</span> <span class="nf">Bird</span><span class="p">:</span><span class="n">New</span><span class="p">()</span>
-</span><span class='line'><span class="kd">local</span> <span class="n">b</span> <span class="o">=</span> <span class="p">{}</span>
-</span><span class='line'><span class="nb">setmetatable</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">self</span><span class="p">)</span>
-</span><span class='line'><span class="k">return</span> <span class="n">b</span>
+</span><span class='line'>  <span class="kd">local</span> <span class="n">b</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span class='line'>  <span class="nb">setmetatable</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">self</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">b</span>
 </span><span class='line'><span class="k">end</span>
 </span><span class='line'>
 </span><span class='line'><span class="kd">local</span> <span class="n">aBird</span> <span class="o">=</span> <span class="n">Bird</span><span class="p">:</span><span class="n">New</span><span class="p">()</span>
 </span><span class='line'><span class="k">if</span> <span class="n">aBird</span><span class="p">.</span><span class="n">CanFly</span> <span class="k">then</span>
-</span><span class='line'><span class="nb">print</span><span class="p">(</span><span class="err">“</span><span class="n">a</span> <span class="n">bird</span> <span class="n">can</span> <span class="n">fly</span><span class="err">”</span><span class="p">)</span>
+</span><span class='line'>  <span class="nb">print</span><span class="p">(</span><span class="err">“</span><span class="n">a</span> <span class="n">bird</span> <span class="n">can</span> <span class="n">fly</span><span class="err">”</span><span class="p">)</span>
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
@@ -209,9 +209,9 @@
 </span><span class='line'><span class="nb">setmetatable</span><span class="p">(</span><span class="n">Crow</span><span class="p">,</span> <span class="n">Bird</span><span class="p">)</span>
 </span><span class='line'>
 </span><span class='line'><span class="k">function</span> <span class="nf">Crow</span><span class="p">:</span><span class="n">New</span><span class="p">()</span>
-</span><span class='line'><span class="kd">local</span> <span class="n">c</span> <span class="o">=</span> <span class="p">{}</span>
-</span><span class='line'><span class="nb">setmetatable</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">self</span><span class="p">)</span>
-</span><span class='line'><span class="k">return</span> <span class="n">c</span>
+</span><span class='line'>  <span class="kd">local</span> <span class="n">c</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span class='line'>  <span class="nb">setmetatable</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">self</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">c</span>
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
@@ -233,7 +233,7 @@
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class='lua'><span class='line'><span class="n">obj</span> <span class="o">=</span> <span class="n">ClassName</span><span class="p">:</span><span class="n">new</span><span class="p">()</span>
-</span><span class='line'><span class="n">obj</span><span class="p">.</span><span class="n">myfield</span> <span class="o">=</span> <span class="mi">1</span> <span class="err">–</span> <span class="err">即使</span><span class="n">ClassName</span><span class="err">这个类中没有定义</span><span class="n">myfield</span><span class="err">，左边这样赋值也是成立的。</span>
+</span><span class='line'><span class="n">obj</span><span class="p">.</span><span class="n">myfield</span> <span class="o">=</span> <span class="mi">1</span> <span class="c1">--即使ClassName这个类中没有定义myfield，左边这样赋值也是成立的。</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -259,24 +259,24 @@
 <span class='line-number'>16</span>
 <span class='line-number'>17</span>
 <span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class='lua'><span class='line'><span class="err">–</span> <span class="n">a</span> <span class="s1">&#39;</span><span class="s">LuaWidget&#39;</span> <span class="n">class</span>
+</pre></td><td class='code'><pre><code class='lua'><span class='line'><span class="err">–</span><span class="o">-</span> <span class="n">a</span> <span class="s1">&#39;</span><span class="s">LuaWidget&#39;</span> <span class="n">class</span>
 </span><span class='line'><span class="n">LuaWidget</span> <span class="o">=</span> <span class="p">{}</span>
 </span><span class='line'><span class="n">LuaWidget</span><span class="p">.</span><span class="n">__index</span> <span class="o">=</span> <span class="n">LuaWidget</span>
 </span><span class='line'>
 </span><span class='line'><span class="k">function</span> <span class="nf">LuaWidget</span><span class="p">:</span><span class="n">add_button</span><span class="p">(</span><span class="n">caption</span><span class="p">)</span>
-</span><span class='line'><span class="err">–</span> <span class="n">add</span> <span class="n">a</span> <span class="n">button</span> <span class="n">to</span> <span class="n">our</span> <span class="n">widget</span> <span class="n">here</span><span class="p">.</span> <span class="s1">&#39;</span><span class="s">self&#39;</span> <span class="n">will</span> <span class="n">be</span> <span class="n">the</span> <span class="n">userdata</span> <span class="n">Widget</span>
+</span><span class='line'><span class="err">–</span><span class="o">-</span> <span class="n">add</span> <span class="n">a</span> <span class="n">button</span> <span class="n">to</span> <span class="n">our</span> <span class="n">widget</span> <span class="n">here</span><span class="p">.</span> <span class="s1">&#39;</span><span class="s">self&#39;</span> <span class="n">will</span> <span class="n">be</span> <span class="n">the</span> <span class="n">userdata</span> <span class="n">Widget</span>
 </span><span class='line'><span class="k">end</span>
 </span><span class='line'>
 </span><span class='line'><span class="kd">local</span> <span class="n">w</span> <span class="o">=</span> <span class="n">Widget</span><span class="p">()</span>
 </span><span class='line'><span class="kd">local</span> <span class="n">t</span> <span class="o">=</span> <span class="p">{}</span>
-</span><span class='line'><span class="nb">setmetatable</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">LuaWidget</span><span class="p">)</span> <span class="err">–</span> <span class="n">make</span> <span class="s1">&#39;</span><span class="s">t&#39;</span> <span class="n">an</span> <span class="n">instance</span> <span class="n">of</span> <span class="n">LuaWidget</span>
+</span><span class='line'><span class="nb">setmetatable</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">LuaWidget</span><span class="p">)</span> <span class="err">–</span><span class="o">-</span> <span class="n">make</span> <span class="s1">&#39;</span><span class="s">t&#39;</span> <span class="n">an</span> <span class="n">instance</span> <span class="n">of</span> <span class="n">LuaWidget</span>
 </span><span class='line'>
-</span><span class='line'><span class="n">tolua</span><span class="p">.</span><span class="n">setpeer</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span> <span class="err">–</span> <span class="n">make</span> <span class="s1">&#39;</span><span class="s">t&#39;</span> <span class="n">the</span> <span class="n">peer</span> <span class="n">table</span> <span class="n">of</span> <span class="s1">&#39;</span><span class="s">w&#39;</span>
+</span><span class='line'><span class="n">tolua</span><span class="p">.</span><span class="n">setpeer</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span> <span class="err">–</span><span class="o">-</span><span class="n">make</span> <span class="s1">&#39;</span><span class="s">t&#39;</span> <span class="n">the</span> <span class="n">peer</span> <span class="n">table</span> <span class="n">of</span> <span class="s1">&#39;</span><span class="s">w&#39;</span>
 </span><span class='line'>
-</span><span class='line'><span class="n">set_parent</span><span class="p">(</span><span class="n">w</span><span class="p">)</span> <span class="err">–</span> <span class="n">we</span> <span class="n">use</span> <span class="s1">&#39;</span><span class="s">w&#39;</span> <span class="n">as</span> <span class="n">the</span> <span class="n">object</span> <span class="n">now</span>
+</span><span class='line'><span class="n">set_parent</span><span class="p">(</span><span class="n">w</span><span class="p">)</span> <span class="err">–</span><span class="o">-</span><span class="n">we</span> <span class="n">use</span> <span class="s1">&#39;</span><span class="s">w&#39;</span> <span class="n">as</span> <span class="n">the</span> <span class="n">object</span> <span class="n">now</span>
 </span><span class='line'>
-</span><span class='line'><span class="n">w</span><span class="p">:</span><span class="n">show</span><span class="p">()</span> <span class="err">–</span> <span class="n">a</span> <span class="n">method</span> <span class="n">from</span> <span class="s1">&#39;</span><span class="s">Widget&#39;</span>
-</span><span class='line'><span class="n">w</span><span class="p">:</span><span class="n">add_button</span><span class="p">(</span><span class="err">“</span><span class="n">Quit</span><span class="err">”</span><span class="p">)</span> <span class="err">–</span> <span class="n">a</span> <span class="n">method</span> <span class="n">from</span> <span class="n">LuaWidget</span> <span class="p">(</span><span class="n">but</span> <span class="n">we</span> <span class="n">still</span> <span class="n">use</span> <span class="s1">&#39;</span><span class="s">w&#39;</span> <span class="n">to</span> <span class="n">call</span> <span class="n">it</span><span class="p">)</span>
+</span><span class='line'><span class="n">w</span><span class="p">:</span><span class="n">show</span><span class="p">()</span> <span class="err">–</span><span class="o">-</span><span class="n">a</span> <span class="n">method</span> <span class="n">from</span> <span class="s1">&#39;</span><span class="s">Widget&#39;</span>
+</span><span class='line'><span class="n">w</span><span class="p">:</span><span class="n">add_button</span><span class="p">(</span><span class="err">“</span><span class="n">Quit</span><span class="err">”</span><span class="p">)</span> <span class="err">–</span><span class="o">-</span><span class="n">a</span> <span class="n">method</span> <span class="n">from</span> <span class="n">LuaWidget</span> <span class="p">(</span><span class="n">but</span> <span class="n">we</span> <span class="n">still</span> <span class="n">use</span> <span class="s1">&#39;</span><span class="s">w&#39;</span> <span class="n">to</span> <span class="n">call</span> <span class="n">it</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -613,7 +613,7 @@
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2014/08/21/learn-lua-object/">Lua 面向对象实现</a>
+        <a href="/blog/2014/08/21/learn-lua-object/">Lua 面向对象实现(Part I)</a>
       </li>
     
       <li class="post">
