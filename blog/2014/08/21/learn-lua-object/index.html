@@ -1,24 +1,112 @@
-<?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Wenbo's Blog]]></title>
-  <link href="http://wenboqiu.github.io/atom.xml" rel="self"/>
-  <link href="http://wenboqiu.github.io/"/>
-  <updated>2014-08-22T15:17:24+08:00</updated>
-  <id>http://wenboqiu.github.io/</id>
-  <author>
-    <name><![CDATA[Wenbo Qiu]]></name>
-    
-  </author>
-  <generator uri="http://octopress.org/">Octopress</generator>
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Lua 面向对象实现 - Wenbo's Blog</title>
+  <meta name="author" content="Wenbo Qiu">
 
   
-  <entry>
-    <title type="html"><![CDATA[Lua 面向对象实现]]></title>
-    <link href="http://wenboqiu.github.io/blog/2014/08/21/learn-lua-object/"/>
-    <updated>2014-08-21T19:51:24+08:00</updated>
-    <id>http://wenboqiu.github.io/blog/2014/08/21/learn-lua-object</id>
-    <content type="html"><![CDATA[<p>接触Lua已经有一年的，但是一直对Lua的面向对象实现一知半解，全赖wp同学的工作，我们可以不用管具体的细节，把项目顺利完成。不过有东西一直一知半解，总觉得难受，于是趁这几天有空，把这块知识点好好梳理了一番。</p>
+  <meta name="description" content="接触Lua已经有一年的，但是一直对Lua的面向对象实现一知半解，全赖wp同学的工作，我们可以不用管具体的细节，把项目顺利完成。不过有东西一直一知半解，总觉得难受，于是趁这几天有空，把这块知识点好好梳理了一番。 一、Lua Table 模拟面向对象实现 Lua本身并不是面向对象的语言， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://wenboqiu.github.io/blog/2014/08/21/learn-lua-object">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Wenbo's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-48109768-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Wenbo's Blog</a></h1>
+  
+    <h2>疯言疯语</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:wenboqiu.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Lua 面向对象实现</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-08-21T19:51:24+08:00" pubdate data-updated="true">Aug 21<span>st</span>, 2014</time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://wenboqiu.github.io">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>接触Lua已经有一年的，但是一直对Lua的面向对象实现一知半解，全赖wp同学的工作，我们可以不用管具体的细节，把项目顺利完成。不过有东西一直一知半解，总觉得难受，于是趁这几天有空，把这块知识点好好梳理了一番。</p>
 
 <p>一、Lua Table 模拟面向对象实现</p>
 
@@ -190,121 +278,142 @@
 
 
 <p>上面Widget是C++类，LuaWidget是Lua类，通过tolua.setpeer，将LuaWidget的一个实例设置为w（Widget的一个实例）的peer table, 如此一来，LuaWidget可以被认为是Widget的子类，因为每次访问w的方法时，首先会去查看它的peer table有没有这个方法，如果有，就执行peer table中的方法，如果没有，才执行Widget中定义的方法。这样，就实现了Lua对象继承C++对象的“模拟”。</p>
-]]></content>
-  </entry>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
   
-  <entry>
-    <title type="html"><![CDATA[2014 我的夏天]]></title>
-    <link href="http://wenboqiu.github.io/blog/2014/08/21/my-summer/"/>
-    <updated>2014-08-21T13:38:07+08:00</updated>
-    <id>http://wenboqiu.github.io/blog/2014/08/21/my-summer</id>
-    <content type="html"><![CDATA[<p>昨天写了篇看球有感，post到博客之上，这才发觉已经有三个多月没有更新过文章了，虽然总共也没写过几篇，惭愧。。</p>
 
-<p>这三个多月，我倒是做了几件事情。</p>
+<span class="byline author vcard">Posted by <span class="fn">Wenbo Qiu</span></span>
 
-<p>一、准备面试：准备面试的过程对自己能力的提高还是大有益处的，既巩固基础知识，也会接触到最新的一些技术，可以完善自己的知识结构，且提供一个重新审视自己的机会。</p>
+      
 
-<p>二、面试：大概准备了一周，主要复习C++的知识，惭愧的是自己的C++的能力一直没有特别深入，即使是突击练习了一周，碰到笔试，面试，立马就露馅了。不过可能其他方面还让面试官比较满意，猎头推荐的几家公司，都顺利通过，猎头竟然夸我是面霸，额，如果刚一毕业就能获得这个成就就好了，晚到了很多年。</p>
 
-<p>三、休假：在九城的后半阶段，一直处于加班加班的旋律之中，之前计划的旅游也一直没有成行。利用这次离职，于是给自己留了一周的缓冲期，回了趟家，呆了差不多8天，这大概是我大学之后在家呆得最久的一次吧，爸妈，外公外婆依旧健康，只是添了许多白发和老年斑，叹时间最无情。不知道自己是不是已经习惯了忙碌的生活，没事情也能给自己找事情做，在家的这几天，也一直忙得连轴转，不是给家里架设印字设备，就是帮外公解决电脑问题，或是帮舅舅清理电脑垃圾。短短8天，一晃而过，回到上海，又该开始新的征程。</p>
 
-<p>四、新公司：选择加入的新公司不算大，不过技术实力比九城深厚的多，有很多在游戏行业浸淫多年的程序员，跟他们一比，自己的技术功底就相形见绌了，必须得努力再努力。加入现在的公司，还是挺偶然的，当时有名气更大的公司可以选择，比如说宝开、PPTV，只是给的米不如目前公司多，再加上这边总管一直很盛情地邀请，于是心一横，就过来了，没想到这次的选择并不差。</p>
 
-<p>五、C++：以前说到自己的C++水平，只是只能算入门，并没有有用C++写过完整项目的经历，没想到新公司的项目是全部用C++写的，倒是给了我一个很好的学习机会。这几个月下来，回过头再看面试那会，都觉得心虚。</p>
 
-<p>知识的学习永无止境，我当继续努力。</p>
-]]></content>
-  </entry>
+
+
+
   
-  <entry>
-    <title type="html"><![CDATA[因为球赛而失去理智]]></title>
-    <link href="http://wenboqiu.github.io/blog/2014/08/20/angry/"/>
-    <updated>2014-08-20T20:04:45+08:00</updated>
-    <id>http://wenboqiu.github.io/blog/2014/08/20/angry</id>
-    <content type="html"><![CDATA[<p>今天观赛恒大与西悉尼的比赛，恒大以0：1输掉了比赛，比赛临近结束前，发生了一些不和谐的因素，张五爷被对手侵犯，挥手报复对手，红牌罚下，郜林因为一个莫须有的犯规，被裁判红牌罚下，最后的几分钟，本来是恒大大举压上进攻的时刻，被对手一顿胡搅蛮缠，宝贵时光白白浪费，恒大至此失去了最后的扳平希望。一直到赛后半个多小时，我仍然心绪难平，愤怒无比，静下心来深思为何如此，竟因为这样而有点失去理智，实在不应该。一个在电脑屏幕前观赛的球迷尚且如此，遑论那些在球场里拼搏的球员们了，真是硬生生的中了对手激将大法。</p>
 
-<p>为何如此愤怒，如果刚开赛，对手就使用这招，恐怕毫无作用，但经过接近90分钟的鏖战，恒大久攻不下，憋了一肚子的火，而且被人蒙进一球，更添怒火，正欲大举进攻，结果硬生生的被场外因素给阻住了，队员们一瞬间就失控了，甚至里皮都跑进场来理论，此时胜负已分。西悉尼赢得了比赛，却没有赢得我的尊重，最后使用的手段太过卑劣，就像武侠小说里面使用石灰粉的往对手眼睛上撒的跳梁小丑，最多得手一两次，终会被真正的高手砍落马下。</p>
 
-<p>恒大呀，为何迪亚曼迪还是无法发挥作用，如果早早领先，何至于被人最后来这一出，为恒大心急。。。</p>
-]]></content>
-  </entry>
+<time datetime="2014-08-21T19:51:24+08:00" pubdate data-updated="true">Aug 21<span>st</span>, 2014</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
   
-  <entry>
-    <title type="html"><![CDATA[昨日两大新闻]]></title>
-    <link href="http://wenboqiu.github.io/blog/2014/05/17/zuo-ri-liang-da-xin-wen/"/>
-    <updated>2014-05-17T06:10:12+08:00</updated>
-    <id>http://wenboqiu.github.io/blog/2014/05/17/zuo-ri-liang-da-xin-wen</id>
-    <content type="html"><![CDATA[<p>第一个是黄海波嫖娼被抓，又一个荧幕好男人毁了。。
-第二个是得知项目组要解散了，虽然早知道游戏行将就木，但是得到确切消息，还是心情无比低落。。</p>
-
-<p>生活总得继续，失落一下就好，今天该发奋继续前行。。。</p>
-]]></content>
-  </entry>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://wenboqiu.github.io/blog/2014/08/21/learn-lua-object/" data-via="" data-counturl="http://wenboqiu.github.io/blog/2014/08/21/learn-lua-object/" >Tweet</a>
   
-  <entry>
-    <title type="html"><![CDATA[吐槽我目前正在开发的游戏]]></title>
-    <link href="http://wenboqiu.github.io/blog/2014/04/26/ideas-on-our-game/"/>
-    <updated>2014-04-26T09:56:52+08:00</updated>
-    <id>http://wenboqiu.github.io/blog/2014/04/26/ideas-on-our-game</id>
-    <content type="html"><![CDATA[<p>一两个月前曾经跟当时的策划吐槽过，我们为什么老是想用尚未开发的功能来掩盖当前游戏的问题，总是说只要那个新的功能开发完成，就能拉留存，就能提高收入了，却不去从当前游戏功能里面找原因，找对策。同样一款类型的游戏，人家只有A,B,C 3个功能，玩得风生水起的，我们同样有A,B,C功能，却默默无闻，为什么，是宣传推广没做好呢，还是细节做得太烂？我们的反思是什么。可悲的是，策划们总是说等有了D,E,F 3个功能，我们就能翻身了。总把希望放在未来，却不看脚下，如果等开发完D,E,F功能，还是没有起色，又该如何？我觉得我们正在恶性循环，出路在哪里。。。。</p>
-
-<p>现在策划们已经准备给宠物穿上装备了，呵呵。。。</p>
-]]></content>
-  </entry>
   
-  <entry>
-    <title type="html"><![CDATA[读书笔记之代码复查]]></title>
-    <link href="http://wenboqiu.github.io/blog/2014/02/21/du-shu-bi-ji-zhi-dai-ma-fu-cha/"/>
-    <updated>2014-02-21T22:16:23+08:00</updated>
-    <id>http://wenboqiu.github.io/blog/2014/02/21/du-shu-bi-ji-zhi-dai-ma-fu-cha</id>
-    <content type="html"><![CDATA[<p>前一段时间买了这本代码大全2，厚厚一大本，最近每天基本都要加班，于是早上或者晚上抽空翻一翻。今天看到一段文字，无比认同，忍不住摘录下来分享。</p>
-
-<p>摘录（协同构建有利于传授公司文化以及编程专业知识）：</p>
-
-<blockquote><p>复查是一个很重要的机制，它可以让程序员得到关于他们自己代码的反馈。<br/>程序员除了需要得到他们是否很好地遵循了标志的反馈之外，还需要得到程序设计主观方面的反馈，例如格式、注释、变量名、局部变量和全局变量的使用、设计方法以及“我们这里采用的解决方法”等。刚出道的编程人员需要那些有更丰富知识的前辈给予指导，而资深程序员们往往太忙而没时间同他人分享他们的知识。复查为这两种人提供了一个技术交流的平台，所以，无论在未来还是现在，复查都是培养新人以提高代码质量的好机会。</p></blockquote>
-
-
-<p>在平时工作中，我们有时候会抱怨现在公司没有太多的技术氛围，其实在同一个项目组内，程序员与程序员之间还是存在很多沟通的盲区，往往每位程序员负责一个独立的模块，如果有空，相互之间分享各自模块的设计思路，互通有无，也是极好的。</p>
-]]></content>
-  </entry>
   
-  <entry>
-    <title type="html"><![CDATA[2014新年展望]]></title>
-    <link href="http://wenboqiu.github.io/blog/2014/02/08/2014xin-nian-zhan-wang/"/>
-    <updated>2014-02-08T15:46:53+08:00</updated>
-    <id>http://wenboqiu.github.io/blog/2014/02/08/2014xin-nian-zhan-wang</id>
-    <content type="html"><![CDATA[<p>今天是大年初九，我在东港的农村，早上下了一场雪，对一个南方人来说，下雪毕竟是稀罕事，而且是一场不小的雪，拉开窗帘，远处的田野与小山，都似披上了白色的丝绸，心里有些小激动，拿上相机，披上棉袄，出去来个踏雪采风。嘿嘿。在外面拍了大概半个小时，因为全身武装的挺好，也不觉得冷，只是惋惜自己拍摄技术糟糕，糟蹋了美景。在这边住了将近一周，越来越觉得这里才是纯粹的农村，对比已经变成脏乱差的城乡结合部的老家，这里的宁静是我向往的。明天就要出发回上海啦，我估计还是时时想起这里，早晨，太阳刚刚上山，暖暖的阳光越过冒着炊烟的民居，洒落在盖着厚厚一层白雪的马路上，雪地里依稀能见野狗野猫的足迹。</p>
+</div>
 
-<p>下午，与公司同事的QQ对话，把我又拉回了紧张的项目开发中，项目经理的第一句话就是“回来之后做好周末加班的准备吧”，心里顿时一紧，有点无奈，年前疲于奔命，年后看来也要疲于奔命了，为什么？为什么总有完不成的开发需求，到底哪些是有用的，又有哪些是画蛇添足的？做为一名普通的玩家，如果一个游戏的核心没有做好，任何其他华丽的附加功能又有什么用呢？增加一个附加功能和增加十个附加功能又有什么区别呢？我觉得我的游戏核心功能还是不错的，但是离完美还是有些距离的，然而现在策划们却把更多的心思放到了那些附加功能，我理解他们也有他们的难处，只是舍本逐末如果走的太远，这个游戏就会废了吧。</p>
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/08/21/my-summer/" title="Previous Post: 2014 我的夏天">&laquo; 2014 我的夏天</a>
+      
+      
+    </p>
+  </footer>
+</article>
 
-<p>说回正题，谈谈新年展望。做开发已经有两年了，做过app的开发，也做过游戏的开发，也涉足过安卓游戏的领域，接触的越多，学的越多，越发觉得自己知识的浅薄，相对于眼前庞大的计算机世界，自己懂得也就是个皮毛。新的一年，首要的还是学习，问题是要学什么，可选择的内容实在太多，精力有限，必须有所侧重。</p>
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
-<!--more-->
+</div>
 
-
-<ol>
-<li>我本非计算机专业出身，觉得自己最缺的还是那些计算机基础课的系统学习。算法与数据结构仍旧是最需要加强的。</li>
-<li>自己目前做的2D游戏，使用的是cocos2d-x的游戏框架，虽然能够熟练的使用，但是对框架的底层原理了解还是不多，新的一年，应该多花一些时间在底层的钻研上。</li>
-<li>去年花了一段时间在学习OpenGL，但是依旧是一知半解，一方面原因是时间花的不够，而且没有实际项目的锻炼，仅仅通过例子的学习是远远不够的。如何学习这方面的知识还是需要摸索。</li>
-<li>我目前能够使用C、C++、Objective-C、Lua，对于这几门语言，惭愧的讲，目前的水平只是能够在项目中使用它们，谈不上深入了解。新的一年，需要多多深入学习它们。</li>
-<li>自从做了游戏之后，对于UIKit的学习反而荒废了，iOS7的出现，突然让我发觉自己对iOS的了解回到了解放前。从年前开始，我已经着手开发一款支持iOS7的app，通过实践来熟悉新的API，并且温故以前UIKit的知识。原本计划这款app能够在年前上线，只是苦于自己设计与美术的短板，总无法满意目前的版本，待公司目前的项目告一段落，好好再花时间在这个app上。</li>
-<li>我觉得一个程序员不光要懂得编程语言本身的语法知识，还需要学习如何使用他们，正所谓编程的艺术，这门学问还是挺博大精深的。前段时间看前辈云凤的博客，他推荐了一本书，叫《代码大全》，一本大部头，我觉得自己没有办法系统的一次性啃下这本书，但是利用零碎时间翻一翻，每次学习一点自己感兴趣的小章节，还是不错的。</li>
-</ol>
-
-
-<p>上述这些内容是我暂时能够想到的，这些只是书本上面的知识。作为一个游戏开发的参与者，行业的动态还是必须持续关注的。游戏这个行业实在发展的太快，每天都有很多新游戏推出，每天都有游戏大红大紫，在写这篇博客的这几天，就有一款叫Flappy Bird的小游戏，从默默无闻到独占全球几乎所有国家的Appstore免费排行榜头把交椅，再到开发者无法忍受出名后的烦恼，自主下架。接着无数抄袭游戏推出，顺利占据排行榜前十。真似万花筒般，让人眼花缭乱。身处这个行业，必须学会适应，努力博得一席之地。</p>
-
-<p>P.S 这篇短短的博文从大年初九开始写的，那时候还在女朋友的家里，一直到大年十六才完成，中间一直没有太多空的时间来静下来梳理，大年十一早上一下飞机，就去公司接着加班，一直到昨天，元宵节，每天都是晚上十点钟的节奏，实在觉得很累，身体有点受不了。我觉得这种忙碌的开发节奏对程序员是有害的，不光身体受不了，对程序员的成长也是毫无好处的，亦如跑步，每次跑一段距离，总得停下来，休息一下，补充一下，然后再上路，才能更好更持续地完成后面的征途，如果一直不断的跑，到后面就无法会趴下了吧。我这里所指的休息补充，一方面是指身体，另一方面是指知识，现在的节奏，休息补充的时间实在太少。今后，希望利用自己有限的话语权争取更多的休息补充时间。</p>
-]]></content>
-  </entry>
+<aside class="sidebar">
   
-  <entry>
-    <title type="html"><![CDATA[新的开始]]></title>
-    <link href="http://wenboqiu.github.io/blog/2014/01/30/xin-de-kai-shi/"/>
-    <updated>2014-01-30T11:24:01+08:00</updated>
-    <id>http://wenboqiu.github.io/blog/2014/01/30/xin-de-kai-shi</id>
-    <content type="html"><![CDATA[<p>通过写博客来记录自己的成长，出发。。</p>
-]]></content>
-  </entry>
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/08/21/learn-lua-object/">Lua 面向对象实现</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/08/21/my-summer/">2014 我的夏天</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/08/20/angry/">因为球赛而失去理智</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/17/zuo-ri-liang-da-xin-wen/">昨日两大新闻</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/26/ideas-on-our-game/">吐槽我目前正在开发的游戏</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
   
-</feed>
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Wenbo Qiu -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'wenbosblog';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://wenboqiu.github.io/blog/2014/08/21/learn-lua-object/';
+        var disqus_url = 'http://wenboqiu.github.io/blog/2014/08/21/learn-lua-object/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
