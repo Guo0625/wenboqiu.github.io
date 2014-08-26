@@ -4,7 +4,7 @@
   <title><![CDATA[Wenbo's Blog]]></title>
   <link href="http://wenboqiu.github.io/atom.xml" rel="self"/>
   <link href="http://wenboqiu.github.io/"/>
-  <updated>2014-08-22T15:41:50+08:00</updated>
+  <updated>2014-08-26T10:41:10+08:00</updated>
   <id>http://wenboqiu.github.io/</id>
   <author>
     <name><![CDATA[Wenbo Qiu]]></name>
@@ -12,6 +12,17 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[遇见error C2065:未声明的标识符错误]]></title>
+    <link href="http://wenboqiu.github.io/blog/2014/08/26/errorc2065/"/>
+    <updated>2014-08-26T10:39:08+08:00</updated>
+    <id>http://wenboqiu.github.io/blog/2014/08/26/errorc2065</id>
+    <content type="html"><![CDATA[<p>昨天在编译Lua绑定代码的时候，出现了这个编译错误，一般来说，只要引入正确的头文件，就能避免这个错误。奇怪的是，头文件明明已经正确引入了，但是编译去无法通过，vs始终提示我的自定义类为未定义标识符，百思不得其解。折腾了两个小时，才发现原来这个自定义类使用了名称空间，只要在头文件中使用using 关键字将名称空间引入即可。</p>
+
+<p>解决完这个问题，觉得悔恨不已，竟然因为这样的小疏忽浪费了这么多的时间。原因有二，一来自己C++功底尚浅，出了问题，始终为想到因为名称空间导致了，当时还在猜测是不是因为什么特殊字符之类的。二、未好好利用搜索引擎，当时在网上搜索到了导致这个错误的几个原因，就是没提到名称空间，自己也没再去搜索更多的答案，反而今天早上一搜索就搜到了一篇博文提到名称空间也会导致这个问题，无语，只能说明昨天没用好搜索引擎。继续努力吧。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Lua 面向对象实现(Part I)]]></title>
@@ -149,7 +160,7 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>上述赋值之所以能够成立，是因为当需要时，tolua自动创建一个Lua table关联到这个对象上。因此，obj这个对象之所以能够存储C++类中没有定义过的字段，是因为这些新的字段被存到了一个伴生的table里。Lua程序员可以使用统一的方式访问C++中定义的字段和这些在Lua中新定义的字段，如果两个字段名一样（C++字段和Lua新定义字段），Lua新定义字段（方法）会覆盖掉C++中的字段（方法）。</p>
+<p>上述赋值之所以能够成立，是因为当需要时，tolua自动创建一个Lua table关联到这个对象上。因此，obj这个对象之所以能够存储C++类中没有定义过的字段，是因为这些新的字段被存到了一个伴生的table里。Lua程序员可以使用统一的方式访问C++中定义的字段和这些在Lua中新定义的字段，如果两个字段名一样（C++字段和Lua新定义字段），Lua新定义字段（方法）会覆盖掉C++中的字段（方法）(注：这个覆盖只在Lua层有效)。</p>
 
 <p>tolua提供了一个方法让程序员可以设置这个伴生的table，即the object&rsquo;s peer table（仅支持Lua 5.1）。这个方法是 tolua.setpeer (object, peer_table) 。tolua++将这个peer table设置为object&rsquo;s envirnment table，使用lua_gettable/settable来获得或者设置这个peer table中的字段值。这个机制允许我们对自己的Lua table实现我们自己的对象系统，实现对userdata对象的继承。下面请看tolua手册中的例子。</p>
 

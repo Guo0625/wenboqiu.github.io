@@ -9,7 +9,7 @@
   <meta name="author" content="Wenbo Qiu">
 
   
-  <meta name="description" content="接触Lua已经有一年的，但是一直对Lua的面向对象实现一知半解，全赖wp同学的工作，我们可以不用管具体的细节，把项目顺利完成。不过有东西一直一知半解，总觉得难受，于是趁这几天有空，把这块知识点好好梳理了一番。 一、Lua Table 模拟面向对象实现 Lua本身并不是面向对象的语言， &hellip;">
+  <meta name="description" content="昨天在编译Lua绑定代码的时候，出现了这个编译错误，一般来说，只要引入正确的头文件，就能避免这个错误。奇怪的是，头文件明明已经正确引入了，但是编译去无法通过，vs始终提示我的自定义类为未定义标识符，百思不得其解。折腾了两个小时，才发现原来这个自定义类使用了名称空间，只要在头文件中使用using &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +77,47 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/08/26/errorc2065/">遇见error C2065:未声明的标识符错误</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-08-26T10:39:08+08:00" pubdate data-updated="true">Aug 26<span>th</span>, 2014</time>
+        
+           | <a href="/blog/2014/08/26/errorc2065/#disqus_thread"
+             data-disqus-identifier="http://wenboqiu.github.io/blog/2014/08/26/errorc2065/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>昨天在编译Lua绑定代码的时候，出现了这个编译错误，一般来说，只要引入正确的头文件，就能避免这个错误。奇怪的是，头文件明明已经正确引入了，但是编译去无法通过，vs始终提示我的自定义类为未定义标识符，百思不得其解。折腾了两个小时，才发现原来这个自定义类使用了名称空间，只要在头文件中使用using 关键字将名称空间引入即可。</p>
+
+<p>解决完这个问题，觉得悔恨不已，竟然因为这样的小疏忽浪费了这么多的时间。原因有二，一来自己C++功底尚浅，出了问题，始终为想到因为名称空间导致了，当时还在猜测是不是因为什么特殊字符之类的。二、未好好利用搜索引擎，当时在网上搜索到了导致这个错误的几个原因，就是没提到名称空间，自己也没再去搜索更多的答案，反而今天早上一搜索就搜到了一篇博文提到名称空间也会导致这个问题，无语，只能说明昨天没用好搜索引擎。继续努力吧。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -444,6 +485,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/08/26/errorc2065/">遇见error C2065:未声明的标识符错误</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/08/21/learn-lua-object/">Lua 面向对象实现(Part I)</a>
       </li>
     
@@ -457,10 +502,6 @@
     
       <li class="post">
         <a href="/blog/2014/05/17/zuo-ri-liang-da-xin-wen/">昨日两大新闻</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/04/26/ideas-on-our-game/">吐槽我目前正在开发的游戏</a>
       </li>
     
   </ul>

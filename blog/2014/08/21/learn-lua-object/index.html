@@ -237,7 +237,7 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>上述赋值之所以能够成立，是因为当需要时，tolua自动创建一个Lua table关联到这个对象上。因此，obj这个对象之所以能够存储C++类中没有定义过的字段，是因为这些新的字段被存到了一个伴生的table里。Lua程序员可以使用统一的方式访问C++中定义的字段和这些在Lua中新定义的字段，如果两个字段名一样（C++字段和Lua新定义字段），Lua新定义字段（方法）会覆盖掉C++中的字段（方法）。</p>
+<p>上述赋值之所以能够成立，是因为当需要时，tolua自动创建一个Lua table关联到这个对象上。因此，obj这个对象之所以能够存储C++类中没有定义过的字段，是因为这些新的字段被存到了一个伴生的table里。Lua程序员可以使用统一的方式访问C++中定义的字段和这些在Lua中新定义的字段，如果两个字段名一样（C++字段和Lua新定义字段），Lua新定义字段（方法）会覆盖掉C++中的字段（方法）(注：这个覆盖只在Lua层有效)。</p>
 
 <p>tolua提供了一个方法让程序员可以设置这个伴生的table，即the object&rsquo;s peer table（仅支持Lua 5.1）。这个方法是 tolua.setpeer (object, peer_table) 。tolua++将这个peer table设置为object&rsquo;s envirnment table，使用lua_gettable/settable来获得或者设置这个peer table中的字段值。这个机制允许我们对自己的Lua table实现我们自己的对象系统，实现对userdata对象的继承。下面请看tolua手册中的例子。</p>
 
@@ -323,6 +323,8 @@
         <a class="basic-alignment left" href="/blog/2014/08/21/my-summer/" title="Previous Post: 2014 我的夏天">&laquo; 2014 我的夏天</a>
       
       
+        <a class="basic-alignment right" href="/blog/2014/08/26/errorc2065/" title="Next Post: 遇见error C2065:未声明的标识符错误">遇见error C2065:未声明的标识符错误 &raquo;</a>
+      
     </p>
   </footer>
 </article>
@@ -342,6 +344,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/08/26/errorc2065/">遇见error C2065:未声明的标识符错误</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/08/21/learn-lua-object/">Lua 面向对象实现(Part I)</a>
       </li>
     
@@ -355,10 +361,6 @@
     
       <li class="post">
         <a href="/blog/2014/05/17/zuo-ri-liang-da-xin-wen/">昨日两大新闻</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/04/26/ideas-on-our-game/">吐槽我目前正在开发的游戏</a>
       </li>
     
   </ul>
