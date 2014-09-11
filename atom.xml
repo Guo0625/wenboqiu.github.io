@@ -4,7 +4,7 @@
   <title><![CDATA[Wenbo's Blog]]></title>
   <link href="http://wenboqiu.github.io/atom.xml" rel="self"/>
   <link href="http://wenboqiu.github.io/"/>
-  <updated>2014-08-26T10:41:10+08:00</updated>
+  <updated>2014-09-11T16:48:51+08:00</updated>
   <id>http://wenboqiu.github.io/</id>
   <author>
     <name><![CDATA[Wenbo Qiu]]></name>
@@ -12,6 +12,174 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[在Lua中如何调用带字符参数的C++函数]]></title>
+    <link href="http://wenboqiu.github.io/blog/2014/09/11/pass-lua-value-to-c-plus-plus-fuction/"/>
+    <updated>2014-09-11T16:40:20+08:00</updated>
+    <id>http://wenboqiu.github.io/blog/2014/09/11/pass-lua-value-to-c-plus-plus-fuction</id>
+    <content type="html"><![CDATA[<p>之前一直有一个疑问，在Lua中调用一个C++函数，如果函数的形参是const char* 或者 std::string 类型，能否直接传入一个Lua的string值呢？</p>
+
+<p>今天仔细看了下通过tolua++绑定后的代码，发现绑定代码会将lua的string值转成C++函数指定的字符类型，不管是const char* 还是std::string。</p>
+
+<p>比如说CCDictionary中的CCObject* objectForKey(const std::string&amp; key)，这个成员函数需要const std::string的引用。那么经过tolua++绑定后，lua中调用这个函数实际又会执行什么样的代码呢。</p>
+
+<!--more-->
+
+
+<p>下面就是绑定后的代码：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="cm">/* method: objectForKey of class  CCDictionary */</span>
+</span><span class='line'><span class="cp">#ifndef TOLUA_DISABLE_tolua_Cocos2d_CCDictionary_objectForKey00</span>
+</span><span class='line'><span class="k">static</span> <span class="kt">int</span> <span class="nf">tolua_Cocos2d_CCDictionary_objectForKey00</span><span class="p">(</span><span class="n">lua_State</span><span class="o">*</span> <span class="n">tolua_S</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'><span class="cp">#ifndef TOLUA_RELEASE</span>
+</span><span class='line'> <span class="n">tolua_Error</span> <span class="n">tolua_err</span><span class="p">;</span>
+</span><span class='line'> <span class="k">if</span> <span class="p">(</span>
+</span><span class='line'>     <span class="o">!</span><span class="n">tolua_isusertype</span><span class="p">(</span><span class="n">tolua_S</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s">&quot;CCDictionary&quot;</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">&amp;</span><span class="n">tolua_err</span><span class="p">)</span> <span class="o">||</span>
+</span><span class='line'>     <span class="o">!</span><span class="n">tolua_iscppstring</span><span class="p">(</span><span class="n">tolua_S</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">&amp;</span><span class="n">tolua_err</span><span class="p">)</span> <span class="o">||</span>
+</span><span class='line'>     <span class="o">!</span><span class="n">tolua_isnoobj</span><span class="p">(</span><span class="n">tolua_S</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="o">&amp;</span><span class="n">tolua_err</span><span class="p">)</span>
+</span><span class='line'> <span class="p">)</span>
+</span><span class='line'>  <span class="k">goto</span> <span class="n">tolua_lerror</span><span class="p">;</span>
+</span><span class='line'> <span class="k">else</span>
+</span><span class='line'><span class="cp">#endif</span>
+</span><span class='line'> <span class="p">{</span>
+</span><span class='line'>  <span class="n">CCDictionary</span><span class="o">*</span> <span class="n">self</span> <span class="o">=</span> <span class="p">(</span><span class="n">CCDictionary</span><span class="o">*</span><span class="p">)</span>  <span class="n">tolua_tousertype</span><span class="p">(</span><span class="n">tolua_S</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+</span><span class='line'>  <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">key</span> <span class="o">=</span> <span class="p">((</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">)</span>  <span class="n">tolua_tocppstring</span><span class="p">(</span><span class="n">tolua_S</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">));</span>
+</span><span class='line'><span class="cp">#ifndef TOLUA_RELEASE</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">self</span><span class="p">)</span> <span class="n">tolua_error</span><span class="p">(</span><span class="n">tolua_S</span><span class="p">,</span><span class="s">&quot;invalid &#39;self&#39; in function &#39;objectForKey&#39;&quot;</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+</span><span class='line'><span class="cp">#endif</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>   <span class="n">CCObject</span><span class="o">*</span> <span class="n">tolua_ret</span> <span class="o">=</span> <span class="p">(</span><span class="n">CCObject</span><span class="o">*</span><span class="p">)</span>  <span class="n">self</span><span class="o">-&gt;</span><span class="n">objectForKey</span><span class="p">(</span><span class="n">key</span><span class="p">);</span>
+</span><span class='line'>    <span class="kt">int</span> <span class="n">nID</span> <span class="o">=</span> <span class="p">(</span><span class="n">tolua_ret</span><span class="p">)</span> <span class="o">?</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">tolua_ret</span><span class="o">-&gt;</span><span class="n">m_uID</span> <span class="o">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+</span><span class='line'>    <span class="kt">int</span><span class="o">*</span> <span class="n">pLuaID</span> <span class="o">=</span> <span class="p">(</span><span class="n">tolua_ret</span><span class="p">)</span> <span class="o">?</span> <span class="o">&amp;</span><span class="n">tolua_ret</span><span class="o">-&gt;</span><span class="n">m_nLuaID</span> <span class="o">:</span> <span class="nb">NULL</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">toluafix_pushusertype_ccobject</span><span class="p">(</span><span class="n">tolua_S</span><span class="p">,</span> <span class="n">nID</span><span class="p">,</span> <span class="n">pLuaID</span><span class="p">,</span> <span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">)</span><span class="n">tolua_ret</span><span class="p">,</span><span class="s">&quot;CCObject&quot;</span><span class="p">);</span>
+</span><span class='line'>   <span class="n">tolua_pushcppstring</span><span class="p">(</span><span class="n">tolua_S</span><span class="p">,(</span><span class="k">const</span> <span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="n">key</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'> <span class="p">}</span>
+</span><span class='line'> <span class="k">return</span> <span class="mi">2</span><span class="p">;</span>
+</span><span class='line'><span class="cp">#ifndef TOLUA_RELEASE</span>
+</span><span class='line'> <span class="nl">tolua_lerror:</span>
+</span><span class='line'> <span class="n">tolua_error</span><span class="p">(</span><span class="n">tolua_S</span><span class="p">,</span><span class="s">&quot;#ferror in function &#39;objectForKey&#39;.&quot;</span><span class="p">,</span><span class="o">&amp;</span><span class="n">tolua_err</span><span class="p">);</span>
+</span><span class='line'> <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'><span class="cp">#endif</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="cp">#endif </span><span class="c1">//#ifndef TOLUA_DISABLE</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>从上面代码中，我们可以看到tolua_tocppstring这个方法会把lua stack中的lua value 转成std::string。</p>
+
+<p>再比如CCLabelTTF中的virtual void setString(const char label)，这个成员函数需要一个const char的值，那我们看看tolua++绑定后的实现。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="cm">/* method: setString of class  CCLabelTTF */</span>
+</span><span class='line'><span class="cp">#ifndef TOLUA_DISABLE_tolua_Cocos2d_CCLabelTTF_setString00</span>
+</span><span class='line'><span class="k">static</span> <span class="kt">int</span> <span class="nf">tolua_Cocos2d_CCLabelTTF_setString00</span><span class="p">(</span><span class="n">lua_State</span><span class="o">*</span> <span class="n">tolua_S</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'><span class="cp">#ifndef TOLUA_RELEASE</span>
+</span><span class='line'> <span class="n">tolua_Error</span> <span class="n">tolua_err</span><span class="p">;</span>
+</span><span class='line'> <span class="k">if</span> <span class="p">(</span>
+</span><span class='line'>     <span class="o">!</span><span class="n">tolua_isusertype</span><span class="p">(</span><span class="n">tolua_S</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s">&quot;CCLabelTTF&quot;</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">&amp;</span><span class="n">tolua_err</span><span class="p">)</span> <span class="o">||</span>
+</span><span class='line'>     <span class="o">!</span><span class="n">tolua_isstring</span><span class="p">(</span><span class="n">tolua_S</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">&amp;</span><span class="n">tolua_err</span><span class="p">)</span> <span class="o">||</span>
+</span><span class='line'>     <span class="o">!</span><span class="n">tolua_isnoobj</span><span class="p">(</span><span class="n">tolua_S</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="o">&amp;</span><span class="n">tolua_err</span><span class="p">)</span>
+</span><span class='line'> <span class="p">)</span>
+</span><span class='line'>  <span class="k">goto</span> <span class="n">tolua_lerror</span><span class="p">;</span>
+</span><span class='line'> <span class="k">else</span>
+</span><span class='line'><span class="cp">#endif</span>
+</span><span class='line'> <span class="p">{</span>
+</span><span class='line'>  <span class="n">CCLabelTTF</span><span class="o">*</span> <span class="n">self</span> <span class="o">=</span> <span class="p">(</span><span class="n">CCLabelTTF</span><span class="o">*</span><span class="p">)</span>  <span class="n">tolua_tousertype</span><span class="p">(</span><span class="n">tolua_S</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+</span><span class='line'>  <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">label</span> <span class="o">=</span> <span class="p">((</span><span class="k">const</span> <span class="kt">char</span><span class="o">*</span><span class="p">)</span>  <span class="n">tolua_tostring</span><span class="p">(</span><span class="n">tolua_S</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">));</span>
+</span><span class='line'><span class="cp">#ifndef TOLUA_RELEASE</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">self</span><span class="p">)</span> <span class="n">tolua_error</span><span class="p">(</span><span class="n">tolua_S</span><span class="p">,</span><span class="s">&quot;invalid &#39;self&#39; in function &#39;setString&#39;&quot;</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+</span><span class='line'><span class="cp">#endif</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>   <span class="n">self</span><span class="o">-&gt;</span><span class="n">setString</span><span class="p">(</span><span class="n">label</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'> <span class="p">}</span>
+</span><span class='line'> <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'><span class="cp">#ifndef TOLUA_RELEASE</span>
+</span><span class='line'> <span class="nl">tolua_lerror:</span>
+</span><span class='line'> <span class="n">tolua_error</span><span class="p">(</span><span class="n">tolua_S</span><span class="p">,</span><span class="s">&quot;#ferror in function &#39;setString&#39;.&quot;</span><span class="p">,</span><span class="o">&amp;</span><span class="n">tolua_err</span><span class="p">);</span>
+</span><span class='line'> <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'><span class="cp">#endif</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="cp">#endif </span><span class="c1">//#ifndef TOLUA_DISABLE</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>从上面代码中，我们可以看到tolua_tostring这个方法会把lua stack中的lua value 转成const char*。</p>
+
+<p>因此可以得出结论：Lua中调用C++函数，不管参数需要的std::string 还是 const char*类型，只要传入Lua string值即可。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[遇见error C2065:未声明的标识符错误]]></title>

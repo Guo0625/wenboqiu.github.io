@@ -9,7 +9,7 @@
   <meta name="author" content="Wenbo Qiu">
 
   
-  <meta name="description" content="昨天在编译Lua绑定代码的时候，出现了这个编译错误，一般来说，只要引入正确的头文件，就能避免这个错误。奇怪的是，头文件明明已经正确引入了，但是编译去无法通过，vs始终提示我的自定义类为未定义标识符，百思不得其解。折腾了两个小时，才发现原来这个自定义类使用了名称空间，只要在头文件中使用using &hellip;">
+  <meta name="description" content="之前一直有一个疑问，在Lua中调用一个C++函数，如果函数的形参是const char* 或者 std::string 类型，能否直接传入一个Lua的string值呢？ 今天仔细看了下通过tolua++绑定后的代码，发现绑定代码会将lua的string值转成C++函数指定的字符类型， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +77,54 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/09/11/pass-lua-value-to-c-plus-plus-fuction/">在Lua中如何调用带字符参数的C++函数</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-11T16:40:20+08:00" pubdate data-updated="true">Sep 11<span>th</span>, 2014</time>
+        
+           | <a href="/blog/2014/09/11/pass-lua-value-to-c-plus-plus-fuction/#disqus_thread"
+             data-disqus-identifier="http://wenboqiu.github.io/blog/2014/09/11/pass-lua-value-to-c-plus-plus-fuction/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>之前一直有一个疑问，在Lua中调用一个C++函数，如果函数的形参是const char* 或者 std::string 类型，能否直接传入一个Lua的string值呢？</p>
+
+<p>今天仔细看了下通过tolua++绑定后的代码，发现绑定代码会将lua的string值转成C++函数指定的字符类型，不管是const char* 还是std::string。</p>
+
+<p>比如说CCDictionary中的CCObject* objectForKey(const std::string&amp; key)，这个成员函数需要const std::string的引用。那么经过tolua++绑定后，lua中调用这个函数实际又会执行什么样的代码呢。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2014/09/11/pass-lua-value-to-c-plus-plus-fuction/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -485,6 +533,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/09/11/pass-lua-value-to-c-plus-plus-fuction/">在Lua中如何调用带字符参数的C++函数</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/08/26/errorc2065/">遇见error C2065:未声明的标识符错误</a>
       </li>
     
@@ -498,10 +550,6 @@
     
       <li class="post">
         <a href="/blog/2014/08/20/angry/">因为球赛而失去理智</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/05/17/zuo-ri-liang-da-xin-wen/">昨日两大新闻</a>
       </li>
     
   </ul>
