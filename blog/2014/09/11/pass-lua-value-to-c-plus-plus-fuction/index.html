@@ -268,6 +268,8 @@
 <p>因此可以得出结论：Lua中调用C++函数，不管参数需要的std::string 还是 const char*类型，只要传入Lua string值即可。</p>
 
 <p>在当前基础上，再稍微拓展一下，因为Lua在运行期会对string、number值进行自动转换，因此即使传入一个lua number值，也会被转换成Lua string值。所以，上述的结论可以改为：Lua中调用C++函数，不管参数需要的std::string 还是 const char*类型，只要传入Lua string值或number值即可。</p>
+
+<p>另外如果C++函数需要的是CCString*，我们还是老老实实的在Lua中创建一个CCString对象，然后把对象的指针传入这个C++函数，因为CCString对象在Lua中被认为是userdata类型，跟一般的C++对象是一致的。</p>
 </div>
 
 
