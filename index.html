@@ -9,7 +9,7 @@
   <meta name="author" content="Wenbo Qiu">
 
   
-  <meta name="description" content="之前一直有一个疑问，在Lua中调用一个C++函数，如果函数的形参是const char* 或者 std::string 类型，能否直接传入一个Lua的string值呢？ 今天仔细看了下通过tolua++绑定后的代码，发现绑定代码会将lua的string值转成C++函数指定的字符类型， &hellip;">
+  <meta name="description" content="在Lua中调用C++函数时，产生过一个疑问，C++函数的形参有可能是指针，也可能是引用，或者是按值传递的，在Lua里面，需要针对这些参数进行特殊处理吗？ 今天看了下tolua++绑定后的代码，发现绑定代码已经进行转化过了，在Lua中只要传入Lua value就好。 举例来说，bool &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +77,54 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/09/12/how-tolua-bind-multiple-type-formal-parameter/">Lua绑定对C++函数不同类型形参的处理</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-12T11:31:18+08:00" pubdate data-updated="true">Sep 12<span>th</span>, 2014</time>
+        
+           | <a href="/blog/2014/09/12/how-tolua-bind-multiple-type-formal-parameter/#disqus_thread"
+             data-disqus-identifier="http://wenboqiu.github.io/blog/2014/09/12/how-tolua-bind-multiple-type-formal-parameter/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>在Lua中调用C++函数时，产生过一个疑问，C++函数的形参有可能是指针，也可能是引用，或者是按值传递的，在Lua里面，需要针对这些参数进行特殊处理吗？</p>
+
+<p>今天看了下tolua++绑定后的代码，发现绑定代码已经进行转化过了，在Lua中只要传入Lua value就好。</p>
+
+<p>举例来说，bool CCScale9Sprite::initWithFile(const char* file, CCRect rect) 这个方法形参既有指针，也有按值传递，通过tolua++绑定后，lua实际调用的函数会是怎么样的呢？</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2014/09/12/how-tolua-bind-multiple-type-formal-parameter/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -481,46 +529,9 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/01/30/xin-de-kai-shi/">新的开始</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-01-30T11:24:01+08:00" pubdate data-updated="true">Jan 30<span>th</span>, 2014</time>
-        
-           | <a href="/blog/2014/01/30/xin-de-kai-shi/#disqus_thread"
-             data-disqus-identifier="http://wenboqiu.github.io/blog/2014/01/30/xin-de-kai-shi/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>通过写博客来记录自己的成长，出发。。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
+    
+      <a class="prev" href="/blog/page/2/">&larr; Older</a>
     
     <a href="/blog/archives">Blog Archives</a>
     
@@ -531,6 +542,10 @@
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/09/12/how-tolua-bind-multiple-type-formal-parameter/">Lua绑定对C++函数不同类型形参的处理</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2014/09/11/pass-lua-value-to-c-plus-plus-fuction/">在Lua中如何调用带字符参数的C++函数</a>
@@ -546,10 +561,6 @@
     
       <li class="post">
         <a href="/blog/2014/08/21/my-summer/">2014 我的夏天</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/08/20/angry/">因为球赛而失去理智</a>
       </li>
     
   </ul>

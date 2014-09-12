@@ -4,7 +4,7 @@
   <title><![CDATA[Wenbo's Blog]]></title>
   <link href="http://wenboqiu.github.io/atom.xml" rel="self"/>
   <link href="http://wenboqiu.github.io/"/>
-  <updated>2014-09-11T17:24:38+08:00</updated>
+  <updated>2014-09-12T11:35:07+08:00</updated>
   <id>http://wenboqiu.github.io/</id>
   <author>
     <name><![CDATA[Wenbo Qiu]]></name>
@@ -12,6 +12,89 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Lua绑定对C++函数不同类型形参的处理]]></title>
+    <link href="http://wenboqiu.github.io/blog/2014/09/12/how-tolua-bind-multiple-type-formal-parameter/"/>
+    <updated>2014-09-12T11:31:18+08:00</updated>
+    <id>http://wenboqiu.github.io/blog/2014/09/12/how-tolua-bind-multiple-type-formal-parameter</id>
+    <content type="html"><![CDATA[<p>在Lua中调用C++函数时，产生过一个疑问，C++函数的形参有可能是指针，也可能是引用，或者是按值传递的，在Lua里面，需要针对这些参数进行特殊处理吗？</p>
+
+<p>今天看了下tolua++绑定后的代码，发现绑定代码已经进行转化过了，在Lua中只要传入Lua value就好。</p>
+
+<p>举例来说，bool CCScale9Sprite::initWithFile(const char* file, CCRect rect) 这个方法形参既有指针，也有按值传递，通过tolua++绑定后，lua实际调用的函数会是怎么样的呢？</p>
+
+<!--more-->
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="cm">/* method: initWithFile of class  CCScale9Sprite */</span>
+</span><span class='line'><span class="cp">#ifndef TOLUA_DISABLE_tolua_Cocos2d_CCScale9Sprite_initWithFile01</span>
+</span><span class='line'><span class="k">static</span> <span class="kt">int</span> <span class="nf">tolua_Cocos2d_CCScale9Sprite_initWithFile01</span><span class="p">(</span><span class="n">lua_State</span><span class="o">*</span> <span class="n">tolua_S</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'> <span class="n">tolua_Error</span> <span class="n">tolua_err</span><span class="p">;</span>
+</span><span class='line'> <span class="k">if</span> <span class="p">(</span>
+</span><span class='line'>     <span class="o">!</span><span class="n">tolua_isusertype</span><span class="p">(</span><span class="n">tolua_S</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s">&quot;CCScale9Sprite&quot;</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">&amp;</span><span class="n">tolua_err</span><span class="p">)</span> <span class="o">||</span>
+</span><span class='line'>     <span class="o">!</span><span class="n">tolua_isstring</span><span class="p">(</span><span class="n">tolua_S</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">&amp;</span><span class="n">tolua_err</span><span class="p">)</span> <span class="o">||</span>
+</span><span class='line'>     <span class="p">(</span><span class="n">tolua_isvaluenil</span><span class="p">(</span><span class="n">tolua_S</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="o">&amp;</span><span class="n">tolua_err</span><span class="p">)</span> <span class="o">||</span> <span class="o">!</span><span class="n">tolua_isusertype</span><span class="p">(</span><span class="n">tolua_S</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="s">&quot;CCRect&quot;</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">&amp;</span><span class="n">tolua_err</span><span class="p">))</span> <span class="o">||</span>
+</span><span class='line'>     <span class="o">!</span><span class="n">tolua_isnoobj</span><span class="p">(</span><span class="n">tolua_S</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="o">&amp;</span><span class="n">tolua_err</span><span class="p">)</span>
+</span><span class='line'> <span class="p">)</span>
+</span><span class='line'>  <span class="k">goto</span> <span class="n">tolua_lerror</span><span class="p">;</span>
+</span><span class='line'> <span class="k">else</span>
+</span><span class='line'> <span class="p">{</span>
+</span><span class='line'>  <span class="n">CCScale9Sprite</span><span class="o">*</span> <span class="n">self</span> <span class="o">=</span> <span class="p">(</span><span class="n">CCScale9Sprite</span><span class="o">*</span><span class="p">)</span>  <span class="n">tolua_tousertype</span><span class="p">(</span><span class="n">tolua_S</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+</span><span class='line'>  <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">file</span> <span class="o">=</span> <span class="p">((</span><span class="k">const</span> <span class="kt">char</span><span class="o">*</span><span class="p">)</span>  <span class="n">tolua_tostring</span><span class="p">(</span><span class="n">tolua_S</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">));</span>
+</span><span class='line'>  <span class="n">CCRect</span> <span class="n">rect</span> <span class="o">=</span> <span class="o">*</span><span class="p">((</span><span class="n">CCRect</span><span class="o">*</span><span class="p">)</span>  <span class="n">tolua_tousertype</span><span class="p">(</span><span class="n">tolua_S</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">0</span><span class="p">));</span>
+</span><span class='line'><span class="cp">#ifndef TOLUA_RELEASE</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">self</span><span class="p">)</span> <span class="n">tolua_error</span><span class="p">(</span><span class="n">tolua_S</span><span class="p">,</span><span class="s">&quot;invalid &#39;self&#39; in function &#39;initWithFile&#39;&quot;</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+</span><span class='line'><span class="cp">#endif</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>   <span class="n">bool</span> <span class="n">tolua_ret</span> <span class="o">=</span> <span class="p">(</span><span class="n">bool</span><span class="p">)</span>  <span class="n">self</span><span class="o">-&gt;</span><span class="n">initWithFile</span><span class="p">(</span><span class="n">file</span><span class="p">,</span><span class="n">rect</span><span class="p">);</span>
+</span><span class='line'>   <span class="n">tolua_pushboolean</span><span class="p">(</span><span class="n">tolua_S</span><span class="p">,(</span><span class="n">bool</span><span class="p">)</span><span class="n">tolua_ret</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'> <span class="p">}</span>
+</span><span class='line'> <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class='line'><span class="nl">tolua_lerror:</span>
+</span><span class='line'> <span class="k">return</span> <span class="n">tolua_Cocos2d_CCScale9Sprite_initWithFile00</span><span class="p">(</span><span class="n">tolua_S</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="cp">#endif </span><span class="c1">//#ifndef TOLUA_DISABLE</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>从上面代码，可以看到，tolua_tostring 和 tolua_tousertype 返回的其实都是指针，第一个参数需要的是指针，因此直接将file传入就好，第二个参数需要的是值，因此第16行代码对指针做了 解引用 处理。因此在Lua代码中，只需要传入Lua value就好，不需要关心实际C++函数需要的是指针还是值，或者引用。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[在Lua中如何调用带字符参数的C++函数]]></title>
