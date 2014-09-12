@@ -4,7 +4,7 @@
   <title><![CDATA[Wenbo's Blog]]></title>
   <link href="http://wenboqiu.github.io/atom.xml" rel="self"/>
   <link href="http://wenboqiu.github.io/"/>
-  <updated>2014-09-12T11:35:07+08:00</updated>
+  <updated>2014-09-12T11:36:54+08:00</updated>
   <id>http://wenboqiu.github.io/</id>
   <author>
     <name><![CDATA[Wenbo Qiu]]></name>
@@ -92,7 +92,7 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>从上面代码，可以看到，tolua_tostring 和 tolua_tousertype 返回的其实都是指针，第一个参数需要的是指针，因此直接将file传入就好，第二个参数需要的是值，因此第16行代码对指针做了 解引用 处理。因此在Lua代码中，只需要传入Lua value就好，不需要关心实际C++函数需要的是指针还是值，或者引用。</p>
+<p>从上面代码，可以看到，tolua_tostring 和 tolua_tousertype 返回的其实都是指针，第一个参数需要的是指针，因此直接将file传入就好，第二个参数需要的是值，因此第17行代码对指针做了 解引用 处理。因此在Lua代码中，只需要传入Lua value就好，不需要关心实际C++函数需要的是指针还是值，或者引用。</p>
 ]]></content>
   </entry>
   
