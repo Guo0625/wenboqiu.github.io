@@ -4,7 +4,7 @@
   <title><![CDATA[Wenbo's Blog]]></title>
   <link href="http://wenboqiu.github.io/atom.xml" rel="self"/>
   <link href="http://wenboqiu.github.io/"/>
-  <updated>2014-09-12T11:36:54+08:00</updated>
+  <updated>2014-09-19T10:51:03+08:00</updated>
   <id>http://wenboqiu.github.io/</id>
   <author>
     <name><![CDATA[Wenbo Qiu]]></name>
@@ -12,6 +12,97 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[何时使用tolua.cast]]></title>
+    <link href="http://wenboqiu.github.io/blog/2014/09/19/how-to-use-tolua-dot-cast/"/>
+    <updated>2014-09-19T10:45:15+08:00</updated>
+    <id>http://wenboqiu.github.io/blog/2014/09/19/how-to-use-tolua-dot-cast</id>
+    <content type="html"><![CDATA[<p>之前一直没去关心这个问题，觉得只要按照代码示例照做就好。今天暂时梳理了下这个函数。</p>
+
+<p>下面是tolua 手册中对这个函数的定义：
+tolua.cast (var, type)：Changes the metatable of var in order to make it of type type. type needs to be a string with the complete C type of the object (including namespaces, etc).</p>
+
+<p>它所对应的C语言实现在tolua_map.c中</p>
+
+<!--more-->
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="cm">/* Type casting</span>
+</span><span class='line'><span class="cm">*/</span>
+</span><span class='line'><span class="k">static</span> <span class="kt">int</span> <span class="nf">tolua_bnd_cast</span> <span class="p">(</span><span class="n">lua_State</span><span class="o">*</span> <span class="n">L</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="kt">void</span><span class="o">*</span> <span class="n">v</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">s</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">lua_islightuserdata</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">v</span> <span class="o">=</span> <span class="n">tolua_touserdata</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">v</span> <span class="o">=</span> <span class="n">tolua_tousertype</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">s</span> <span class="o">=</span> <span class="n">tolua_tostring</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="nb">NULL</span><span class="p">);</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">v</span> <span class="o">&amp;&amp;</span> <span class="n">s</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">tolua_pushusertype</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">v</span><span class="p">,</span><span class="n">s</span><span class="p">);</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>        <span class="n">lua_pushnil</span><span class="p">(</span><span class="n">L</span><span class="p">);</span>
+</span><span class='line'>    <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>我们可以看到，tolua.cast实际上是把var的类型转成目标类型，那什么时候需要用到它呢。如果我们需要在Lua中使用C++代码中传过来的CCArray对象，我们直接在Lua中调用该对象的方法即可，因为tolua已经设置该对象的metatable为CCArray类型。但是如果想要使用CCArray对象中存储的对象，比如说该数组中有2个CCString对象，我们获取其中一个对象时，tolua会把该对象设置为CCObject类型，这时候就需要我们把该对象转为CCString类型，才能使用CCString的方法。tolua.cast其实就像C++的dynamic_cast，用于类层次间的上行转换和下行转换，在执行期决定真正的类型。</p>
+
+<p>下面是Lua代码示例，希望有助于理解。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='lua'><span class='line'><span class="c1">--commands 是 一个CCArray对象，里面存着CCString对象</span>
+</span><span class='line'><span class="k">function</span> <span class="nf">object</span><span class="p">:</span><span class="n">onStart</span><span class="p">(</span> <span class="n">commands</span> <span class="p">)</span>
+</span><span class='line'>  <span class="kd">local</span> <span class="n">count</span> <span class="o">=</span> <span class="n">commands</span><span class="p">:</span><span class="n">count</span><span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">if</span> <span class="n">count</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">then</span>
+</span><span class='line'>      <span class="kd">local</span> <span class="n">command0</span> <span class="o">=</span> <span class="n">commands</span><span class="p">:</span><span class="n">objectAtIndex</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</span><span class='line'>      <span class="kd">local</span> <span class="n">length</span> <span class="o">=</span> <span class="n">tolua</span><span class="p">.</span><span class="n">cast</span><span class="p">(</span><span class="n">command0</span><span class="p">,</span> <span class="s2">&quot;</span><span class="s">CCString&quot;</span><span class="p">):</span><span class="n">length</span><span class="p">()</span>
+</span><span class='line'>      <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">the first string length is &quot;</span> <span class="o">..</span> <span class="n">length</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Lua绑定对C++函数不同类型形参的处理]]></title>
