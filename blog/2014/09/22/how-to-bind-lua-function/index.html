@@ -167,17 +167,17 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
+<p>pkg文件中该函数的声明如下：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="kt">void</span> <span class="nf">registerScriptTouchHandler</span><span class="p">(</span><span class="n">LUA_FUNCTION</span> <span class="n">nHandler</span><span class="p">,</span> <span class="n">bool</span> <span class="n">bIsMultiTouches</span> <span class="o">=</span> <span class="nb">false</span><span class="p">,</span> <span class="kt">int</span> <span class="n">nPriority</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">bool</span> <span class="n">bSwallowsTouches</span> <span class="o">=</span> <span class="nb">false</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
 <p>当pkg文件该参数标记为LUA_FUNCTION类型后，tolua++生成的绑定代码中会把第一个参数认为是Lua Function，会获取该function的句柄，传给registerScriptTouchHandler函数。</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='c'><span class='line'><span class="n">LUA_FUNCTION</span> <span class="n">nHandler</span> <span class="o">=</span> <span class="n">toluafix_ref_function</span><span class="p">(</span><span class="n">tolua_S</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>下面是pkg文件中该函数的声明：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="kt">void</span> <span class="nf">registerScriptTouchHandler</span><span class="p">(</span><span class="n">LUA_FUNCTION</span> <span class="n">nHandler</span><span class="p">,</span> <span class="n">bool</span> <span class="n">bIsMultiTouches</span> <span class="o">=</span> <span class="nb">false</span><span class="p">,</span> <span class="kt">int</span> <span class="n">nPriority</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">bool</span> <span class="n">bSwallowsTouches</span> <span class="o">=</span> <span class="nb">false</span><span class="p">);</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
