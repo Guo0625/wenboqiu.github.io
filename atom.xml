@@ -4,7 +4,7 @@
   <title><![CDATA[Wenbo's Blog]]></title>
   <link href="http://wenboqiu.github.io/atom.xml" rel="self"/>
   <link href="http://wenboqiu.github.io/"/>
-  <updated>2014-09-22T16:46:41+08:00</updated>
+  <updated>2014-09-22T16:56:59+08:00</updated>
   <id>http://wenboqiu.github.io/</id>
   <author>
     <name><![CDATA[Wenbo Qiu]]></name>
@@ -62,7 +62,7 @@
 
 <p>那该如何呢？</p>
 
-<p>我们需要在pkg文件中将该函数的第一个参数标记为LUA_FUNCTION类型，这个LUA_FUNCTION类型在CCLuaValue.h中声明。</p>
+<p>我们需要在pkg文件中将该函数的第一个参数标记为LUA_FUNCTION类型（而不是int类型），这个LUA_FUNCTION类型在CCLuaValue.h中声明。</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='c'><span class='line'><span class="k">typedef</span> <span class="kt">int</span> <span class="n">LUA_FUNCTION</span><span class="p">;</span>
@@ -76,7 +76,14 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>下面是registerScriptTouchHandler函数的绑定代码：</p>
+<p>下面是pkg文件中该函数的声明：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="kt">void</span> <span class="nf">registerScriptTouchHandler</span><span class="p">(</span><span class="n">LUA_FUNCTION</span> <span class="n">nHandler</span><span class="p">,</span> <span class="n">bool</span> <span class="n">bIsMultiTouches</span> <span class="o">=</span> <span class="nb">false</span><span class="p">,</span> <span class="kt">int</span> <span class="n">nPriority</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">bool</span> <span class="n">bSwallowsTouches</span> <span class="o">=</span> <span class="nb">false</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>下面是registerScriptTouchHandler函数完整的绑定代码：</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -157,13 +164,6 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>下面是pkg文件中该函数的声明：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="kt">void</span> <span class="nf">registerScriptTouchHandler</span><span class="p">(</span><span class="n">LUA_FUNCTION</span> <span class="n">nHandler</span><span class="p">,</span> <span class="n">bool</span> <span class="n">bIsMultiTouches</span> <span class="o">=</span> <span class="nb">false</span><span class="p">,</span> <span class="kt">int</span> <span class="n">nPriority</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">bool</span> <span class="n">bSwallowsTouches</span> <span class="o">=</span> <span class="nb">false</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
 <p>Lua代码中可以以下面形式调用registerScriptTouchHandler这个函数。</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -172,7 +172,7 @@
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 </pre></td><td class='code'><pre><code class='lua'><span class='line'><span class="k">function</span> <span class="nf">handler</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">method</span><span class="p">)</span>
-</span><span class='line'><span class="k">return</span> <span class="k">function</span><span class="p">(</span><span class="err">…</span><span class="p">)</span> <span class="k">return</span> <span class="n">method</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="err">…</span><span class="p">)</span> <span class="k">end</span>
+</span><span class='line'>  <span class="k">return</span> <span class="k">function</span><span class="p">(</span><span class="err">…</span><span class="p">)</span> <span class="k">return</span> <span class="n">method</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="err">…</span><span class="p">)</span> <span class="k">end</span>
 </span><span class='line'><span class="k">end</span>
 </span><span class='line'>
 </span><span class='line'><span class="n">object</span><span class="p">:</span> <span class="n">registerScriptTouchHandler</span><span class="p">(</span><span class="n">handler</span><span class="p">(</span><span class="n">object</span><span class="p">,</span> <span class="n">object</span><span class="p">.</span><span class="n">functionOne</span><span class="p">))</span>
