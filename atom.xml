@@ -4,7 +4,7 @@
   <title><![CDATA[Wenbo's Blog]]></title>
   <link href="http://wenboqiu.github.io/atom.xml" rel="self"/>
   <link href="http://wenboqiu.github.io/"/>
-  <updated>2014-09-19T10:51:03+08:00</updated>
+  <updated>2014-09-22T16:46:41+08:00</updated>
   <id>http://wenboqiu.github.io/</id>
   <author>
     <name><![CDATA[Wenbo Qiu]]></name>
@@ -12,6 +12,174 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[如何绑定LUA_FUNCTION]]></title>
+    <link href="http://wenboqiu.github.io/blog/2014/09/22/how-to-bind-lua-function/"/>
+    <updated>2014-09-22T16:15:34+08:00</updated>
+    <id>http://wenboqiu.github.io/blog/2014/09/22/how-to-bind-lua-function</id>
+    <content type="html"><![CDATA[<p>今天在项目中尝试在C++代码中调用Lua中的function，实现的逻辑是先在Lua代码中调用C++函数注册自己的handler，然后在需要时由C++调用这个handler，触发Lua中的function。</p>
+
+<p>这个流程可以参照CCLayer中的实现。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="c1">//Step 1:</span>
+</span><span class='line'><span class="c1">//注册handler函数，需要由tolua++绑定，在lua代码中调用</span>
+</span><span class='line'><span class="kt">void</span> <span class="n">CCLayer</span><span class="o">::</span><span class="n">registerScriptTouchHandler</span><span class="p">(</span><span class="kt">int</span> <span class="n">nHandler</span><span class="p">,</span> <span class="n">bool</span> <span class="n">bIsMultiTouches</span><span class="p">,</span> <span class="kt">int</span> <span class="n">nPriority</span><span class="p">,</span> <span class="n">bool</span> <span class="n">bSwallowsTouches</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//Step 2:</span>
+</span><span class='line'><span class="c1">//由LuaEngine执行该handler对应的Lua Function</span>
+</span><span class='line'><span class="kt">int</span> <span class="n">CCLayer</span><span class="o">::</span><span class="n">excuteScriptTouchHandler</span><span class="p">(</span><span class="kt">int</span> <span class="n">nEventType</span><span class="p">,</span> <span class="n">CCTouch</span> <span class="o">*</span><span class="n">pTouch</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">CCScriptEngineManager</span><span class="o">::</span><span class="n">sharedManager</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">getScriptEngine</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">executeLayerTouchEvent</span><span class="p">(</span><span class="n">this</span><span class="p">,</span> <span class="n">nEventType</span><span class="p">,</span> <span class="n">pTouch</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//executeLayerTouchEvent方法中执行handler的代码</span>
+</span><span class='line'><span class="n">m_stack</span><span class="o">-&gt;</span><span class="n">executeFunctionByHandler</span><span class="p">(</span><span class="n">nHandler</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<!--more-->
+
+
+<p>在这个流程中，handler是至关重要的，LuaEngine需要知道这个handler，才可以正确执行对应的Lua Function。那么我们现在的问题就是如何才能获得Lua Function的句柄呢？</p>
+
+<p>如果我们还是按照以前的经验，在pkg文件中，将registerScriptTouchHandler函数的第一个参数声明为int类型，那么由tolua++生成的绑定代码仍然会认为第一个参数是int类型，如果在Lua代码中调用这个函数，第一个参数是Lua Function，就会报错。</p>
+
+<p>那该如何呢？</p>
+
+<p>我们需要在pkg文件中将该函数的第一个参数标记为LUA_FUNCTION类型，这个LUA_FUNCTION类型在CCLuaValue.h中声明。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="k">typedef</span> <span class="kt">int</span> <span class="n">LUA_FUNCTION</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>当pkg文件该参数标记为LUA_FUNCTION类型后，tolua++生成的绑定代码中会把第一个参数认为是Lua Function，会获取该function的句柄，传给registerScriptTouchHandler函数。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="n">LUA_FUNCTION</span> <span class="n">nHandler</span> <span class="o">=</span> <span class="n">toluafix_ref_function</span><span class="p">(</span><span class="n">tolua_S</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>下面是registerScriptTouchHandler函数的绑定代码：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+</pre></td><td class='code'><pre><code class='c++'><span class='line'><span class="cm">/* method: registerScriptTouchHandler of class  CCLayer */</span>
+</span><span class='line'><span class="cp">#ifndef TOLUA_DISABLE_tolua_Cocos2d_CCLayer_registerScriptTouchHandler00</span>
+</span><span class='line'><span class="k">static</span> <span class="kt">int</span> <span class="n">tolua_Cocos2d_CCLayer_registerScriptTouchHandler00</span><span class="p">(</span><span class="n">lua_State</span><span class="o">*</span> <span class="n">tolua_S</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'><span class="cp">#ifndef TOLUA_RELEASE</span>
+</span><span class='line'> <span class="n">tolua_Error</span> <span class="n">tolua_err</span><span class="p">;</span>
+</span><span class='line'> <span class="k">if</span> <span class="p">(</span>
+</span><span class='line'>     <span class="o">!</span><span class="n">tolua_isusertype</span><span class="p">(</span><span class="n">tolua_S</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s">&quot;CCLayer&quot;</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">&amp;</span><span class="n">tolua_err</span><span class="p">)</span> <span class="o">||</span>
+</span><span class='line'>     <span class="p">(</span><span class="n">tolua_isvaluenil</span><span class="p">(</span><span class="n">tolua_S</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="o">&amp;</span><span class="n">tolua_err</span><span class="p">)</span> <span class="o">||</span> <span class="o">!</span><span class="n">toluafix_isfunction</span><span class="p">(</span><span class="n">tolua_S</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="s">&quot;LUA_FUNCTION&quot;</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">&amp;</span><span class="n">tolua_err</span><span class="p">))</span> <span class="o">||</span>
+</span><span class='line'>     <span class="o">!</span><span class="n">tolua_isboolean</span><span class="p">(</span><span class="n">tolua_S</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">&amp;</span><span class="n">tolua_err</span><span class="p">)</span> <span class="o">||</span>
+</span><span class='line'>     <span class="o">!</span><span class="n">tolua_isnumber</span><span class="p">(</span><span class="n">tolua_S</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">&amp;</span><span class="n">tolua_err</span><span class="p">)</span> <span class="o">||</span>
+</span><span class='line'>     <span class="o">!</span><span class="n">tolua_isboolean</span><span class="p">(</span><span class="n">tolua_S</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">&amp;</span><span class="n">tolua_err</span><span class="p">)</span> <span class="o">||</span>
+</span><span class='line'>     <span class="o">!</span><span class="n">tolua_isnoobj</span><span class="p">(</span><span class="n">tolua_S</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="o">&amp;</span><span class="n">tolua_err</span><span class="p">)</span>
+</span><span class='line'> <span class="p">)</span>
+</span><span class='line'>  <span class="k">goto</span> <span class="n">tolua_lerror</span><span class="p">;</span>
+</span><span class='line'> <span class="k">else</span>
+</span><span class='line'><span class="cp">#endif</span>
+</span><span class='line'> <span class="p">{</span>
+</span><span class='line'>  <span class="n">CCLayer</span><span class="o">*</span> <span class="n">self</span> <span class="o">=</span> <span class="p">(</span><span class="n">CCLayer</span><span class="o">*</span><span class="p">)</span>  <span class="n">tolua_tousertype</span><span class="p">(</span><span class="n">tolua_S</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">LUA_FUNCTION</span> <span class="n">nHandler</span> <span class="o">=</span> <span class="p">(</span>  <span class="n">toluafix_ref_function</span><span class="p">(</span><span class="n">tolua_S</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">));</span>
+</span><span class='line'>  <span class="kt">bool</span> <span class="n">bIsMultiTouches</span> <span class="o">=</span> <span class="p">((</span><span class="kt">bool</span><span class="p">)</span>  <span class="n">tolua_toboolean</span><span class="p">(</span><span class="n">tolua_S</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="kc">false</span><span class="p">));</span>
+</span><span class='line'>  <span class="kt">int</span> <span class="n">nPriority</span> <span class="o">=</span> <span class="p">((</span><span class="kt">int</span><span class="p">)</span>  <span class="n">tolua_tonumber</span><span class="p">(</span><span class="n">tolua_S</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">0</span><span class="p">));</span>
+</span><span class='line'>  <span class="kt">bool</span> <span class="n">bSwallowsTouches</span> <span class="o">=</span> <span class="p">((</span><span class="kt">bool</span><span class="p">)</span>  <span class="n">tolua_toboolean</span><span class="p">(</span><span class="n">tolua_S</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="kc">false</span><span class="p">));</span>
+</span><span class='line'><span class="cp">#ifndef TOLUA_RELEASE</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">self</span><span class="p">)</span> <span class="n">tolua_error</span><span class="p">(</span><span class="n">tolua_S</span><span class="p">,</span><span class="s">&quot;invalid &#39;self&#39; in function &#39;registerScriptTouchHandler&#39;&quot;</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+</span><span class='line'><span class="cp">#endif</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>   <span class="n">self</span><span class="o">-&gt;</span><span class="n">registerScriptTouchHandler</span><span class="p">(</span><span class="n">nHandler</span><span class="p">,</span><span class="n">bIsMultiTouches</span><span class="p">,</span><span class="n">nPriority</span><span class="p">,</span><span class="n">bSwallowsTouches</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'> <span class="p">}</span>
+</span><span class='line'> <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'><span class="cp">#ifndef TOLUA_RELEASE</span>
+</span><span class='line'> <span class="nl">tolua_lerror:</span>
+</span><span class='line'> <span class="n">tolua_error</span><span class="p">(</span><span class="n">tolua_S</span><span class="p">,</span><span class="s">&quot;#ferror in function &#39;registerScriptTouchHandler&#39;.&quot;</span><span class="p">,</span><span class="o">&amp;</span><span class="n">tolua_err</span><span class="p">);</span>
+</span><span class='line'> <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'><span class="cp">#endif</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="cp">#endif </span><span class="c1">//#ifndef TOLUA_DISABLE</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>下面是pkg文件中该函数的声明：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="kt">void</span> <span class="nf">registerScriptTouchHandler</span><span class="p">(</span><span class="n">LUA_FUNCTION</span> <span class="n">nHandler</span><span class="p">,</span> <span class="n">bool</span> <span class="n">bIsMultiTouches</span> <span class="o">=</span> <span class="nb">false</span><span class="p">,</span> <span class="kt">int</span> <span class="n">nPriority</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">bool</span> <span class="n">bSwallowsTouches</span> <span class="o">=</span> <span class="nb">false</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Lua代码中可以以下面形式调用registerScriptTouchHandler这个函数。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='lua'><span class='line'><span class="k">function</span> <span class="nf">handler</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">method</span><span class="p">)</span>
+</span><span class='line'><span class="k">return</span> <span class="k">function</span><span class="p">(</span><span class="err">…</span><span class="p">)</span> <span class="k">return</span> <span class="n">method</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="err">…</span><span class="p">)</span> <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">object</span><span class="p">:</span> <span class="n">registerScriptTouchHandler</span><span class="p">(</span><span class="n">handler</span><span class="p">(</span><span class="n">object</span><span class="p">,</span> <span class="n">object</span><span class="p">.</span><span class="n">functionOne</span><span class="p">))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[何时使用tolua.cast]]></title>
