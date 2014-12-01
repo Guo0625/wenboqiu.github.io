@@ -9,17 +9,8 @@
   <meta name="author" content="Wenbo Qiu">
 
   
-  <meta name="description" content="今天在项目中尝试在C++代码中调用Lua中的function，实现的逻辑是先在Lua代码中调用C++函数注册自己的handler，然后在需要时由C++调用这个handler，触发Lua中的function。 这个流程可以参照CCLayer中的实现。 1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11 &hellip;">
+  <meta name="description" content="想看实现方式请直接跳到Part 2。 Part 1:
+我上一个游戏项目使用的是Cocos2d-x 2.1.2，那时候CCLabelTTF还没有支持描边的API，后来的版本加上了enableStroke这个接口，可是实现起来的效果是内描边，内描边的效果并不是很理想，如果字体本身很细的话，内描边后， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -87,6 +78,59 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/12/01/support-label-outline-in-cocos2dx-2-dot-x/">让Cocos2d-x 2.x版本CCLabelTTF支持外描边(非多个方向重绘来实现描边)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-12-01T17:12:58+08:00" pubdate data-updated="true">Dec 1<span>st</span>, 2014</time>
+        
+           | <a href="/blog/2014/12/01/support-label-outline-in-cocos2dx-2-dot-x/#disqus_thread"
+             data-disqus-identifier="http://wenboqiu.github.io/blog/2014/12/01/support-label-outline-in-cocos2dx-2-dot-x/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>想看实现方式请直接跳到Part 2。</p>
+
+<p>Part 1:
+我上一个游戏项目使用的是Cocos2d-x 2.1.2，那时候CCLabelTTF还没有支持描边的API，后来的版本加上了enableStroke这个接口，可是实现起来的效果是内描边，内描边的效果并不是很理想，如果字体本身很细的话，内描边后，基本全是描边，没剩多少肉了。</p>
+
+<p>当时搜寻网上，找到一个可行的外描边方案。这个方案是修改CCLabelTTF::updateTexture()这个方法，原理是将原来字体的纹理，往字的360度方向位移描边的宽度距离，然后绘制生成新的纹理，如果每40度绘制一次的话，360度就需要绘制9次，最后再将字体本身绘制一次，本来一个label 的drawcall消耗是1次，这种方案drawcall消耗就是10次。</p>
+
+<p>这个方案能够勉强实现外描边的效果，在苹果设备上的效果还是可以的，但是一拿到android设备上检查，就会发现描边并不是连贯的，有点坑坑洼洼的感觉。更让人无法接受的是，该方案会导致label的draw call剧烈增加，一些label比较多的页面，如果都需要描边效果的话，会导致游戏每一帧的绘制时间变长，造成游戏明显的卡顿。这个问题在android的低端设备上尤其明显。于是项目后期，我们放弃了字体描边的效果。</p>
+
+<p>下面为该方案的源码：</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2014/12/01/support-label-outline-in-cocos2dx-2-dot-x/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -534,47 +578,6 @@ tolua.cast (var, type)：Changes the metatable of var in order to make it of typ
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/04/26/ideas-on-our-game/">吐槽我目前正在开发的游戏</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-04-26T09:56:52+08:00" pubdate data-updated="true">Apr 26<span>th</span>, 2014</time>
-        
-           | <a href="/blog/2014/04/26/ideas-on-our-game/#disqus_thread"
-             data-disqus-identifier="http://wenboqiu.github.io/blog/2014/04/26/ideas-on-our-game/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>一两个月前曾经跟当时的策划吐槽过，我们为什么老是想用尚未开发的功能来掩盖当前游戏的问题，总是说只要那个新的功能开发完成，就能拉留存，就能提高收入了，却不去从当前游戏功能里面找原因，找对策。同样一款类型的游戏，人家只有A,B,C 3个功能，玩得风生水起的，我们同样有A,B,C功能，却默默无闻，为什么，是宣传推广没做好呢，还是细节做得太烂？我们的反思是什么。可悲的是，策划们总是说等有了D,E,F 3个功能，我们就能翻身了。总把希望放在未来，却不看脚下，如果等开发完D,E,F功能，还是没有起色，又该如何？我觉得我们正在恶性循环，出路在哪里。。。。</p>
-
-<p>现在策划们已经准备给宠物穿上装备了，呵呵。。。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -590,6 +593,10 @@ tolua.cast (var, type)：Changes the metatable of var in order to make it of typ
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/12/01/support-label-outline-in-cocos2dx-2-dot-x/">让Cocos2d-x 2.x版本CCLabelTTF支持外描边(非多个方向重绘来实现描边)</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/09/22/how-to-bind-lua-function/">如何绑定LUA_FUNCTION</a>
       </li>
     
@@ -603,10 +610,6 @@ tolua.cast (var, type)：Changes the metatable of var in order to make it of typ
     
       <li class="post">
         <a href="/blog/2014/09/11/pass-lua-value-to-c-plus-plus-fuction/">在Lua中如何调用带字符参数的C++函数</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/08/26/errorc2065/">遇见error C2065:未声明的标识符错误</a>
       </li>
     
   </ul>
