@@ -209,7 +209,7 @@
 </span><span class='line'>
 </span><span class='line'><span class="n">tex</span><span class="o">-&gt;</span><span class="n">autorelease</span><span class="p">();</span>
 </span><span class='line'>
-</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="n">strokeSize</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="n">m_strokeEnabled</span><span class="p">)</span> <span class="p">{</span>
 </span><span class='line'>
 </span><span class='line'>    <span class="c1">//原始字符串</span>
 </span><span class='line'>    <span class="n">CCSprite</span><span class="o">*</span> <span class="n">spriteText</span> <span class="o">=</span> <span class="n">CCSprite</span><span class="o">::</span><span class="n">createWithTexture</span><span class="p">(</span><span class="n">tex</span><span class="p">);</span>
@@ -217,8 +217,8 @@
 </span><span class='line'>
 </span><span class='line'>    <span class="c1">//计算考虑描边后texture的尺寸</span>
 </span><span class='line'>    <span class="n">CCSize</span> <span class="n">realTextureSize</span> <span class="o">=</span> <span class="n">spriteText</span><span class="o">-&gt;</span><span class="n">getContentSize</span><span class="p">();</span>
-</span><span class='line'>    <span class="n">realTextureSize</span><span class="p">.</span><span class="n">width</span> <span class="o">+=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">strokeSize</span><span class="p">;</span>
-</span><span class='line'>    <span class="n">realTextureSize</span><span class="p">.</span><span class="n">height</span> <span class="o">+=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">strokeSize</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">realTextureSize</span><span class="p">.</span><span class="n">width</span> <span class="o">+=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">m_strokeSize</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">realTextureSize</span><span class="p">.</span><span class="n">height</span> <span class="o">+=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">m_strokeSize</span><span class="p">;</span>
 </span><span class='line'>
 </span><span class='line'>    <span class="c1">//call to clear error</span>
 </span><span class='line'>    <span class="n">glGetError</span><span class="p">();</span>
@@ -227,7 +227,7 @@
 </span><span class='line'>    <span class="n">CCRenderTexture</span> <span class="o">*</span><span class="n">rt</span> <span class="o">=</span> <span class="n">CCRenderTexture</span><span class="o">::</span><span class="n">create</span><span class="p">(</span><span class="n">realTextureSize</span><span class="p">.</span><span class="n">width</span><span class="p">,</span> <span class="n">realTextureSize</span><span class="p">.</span><span class="n">height</span><span class="p">);</span>
 </span><span class='line'>
 </span><span class='line'>    <span class="c1">//绘制底纹</span>
-</span><span class='line'>    <span class="n">spriteText</span><span class="o">-&gt;</span><span class="n">setColor</span><span class="p">(</span><span class="n">strokeColor</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">spriteText</span><span class="o">-&gt;</span><span class="n">setColor</span><span class="p">(</span><span class="n">m_strokeColor</span><span class="p">);</span>
 </span><span class='line'>    <span class="n">ccBlendFunc</span> <span class="n">func</span> <span class="o">=</span> <span class="p">{</span> <span class="n">GL_SRC_ALPHA</span><span class="p">,</span> <span class="n">GL_ONE</span><span class="p">};</span>
 </span><span class='line'>    <span class="n">spriteText</span><span class="o">-&gt;</span><span class="n">setBlendFunc</span><span class="p">(</span><span class="n">func</span><span class="p">);</span>
 </span><span class='line'>    <span class="n">spriteText</span><span class="o">-&gt;</span><span class="n">setAnchorPoint</span><span class="p">(</span><span class="n">CCPoint</span><span class="p">(</span><span class="mf">0.5f</span><span class="p">,</span> <span class="mf">0.5f</span><span class="p">));</span>
@@ -239,8 +239,8 @@
 </span><span class='line'>    <span class="p">{</span>
 </span><span class='line'>        <span class="kt">float</span> <span class="n">r</span> <span class="o">=</span> <span class="n">CC_DEGREES_TO_RADIANS</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
 </span><span class='line'>        <span class="n">spriteText</span><span class="o">-&gt;</span><span class="n">setPosition</span><span class="p">(</span><span class="n">CCPoint</span><span class="p">(</span>
-</span><span class='line'>                                        <span class="n">realTextureSize</span><span class="p">.</span><span class="n">width</span> <span class="o">*</span> <span class="mf">0.5f</span> <span class="o">+</span> <span class="n">sin</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="o">*</span> <span class="n">strokeSize</span><span class="p">,</span>
-</span><span class='line'>                                        <span class="n">realTextureSize</span><span class="p">.</span><span class="n">height</span> <span class="o">*</span> <span class="mf">0.5f</span> <span class="o">+</span> <span class="n">cos</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="o">*</span> <span class="n">strokeSize</span><span class="p">));</span>
+</span><span class='line'>                                        <span class="n">realTextureSize</span><span class="p">.</span><span class="n">width</span> <span class="o">*</span> <span class="mf">0.5f</span> <span class="o">+</span> <span class="n">sin</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="o">*</span> <span class="n">m_strokeSize</span><span class="p">,</span>
+</span><span class='line'>                                        <span class="n">realTextureSize</span><span class="p">.</span><span class="n">height</span> <span class="o">*</span> <span class="mf">0.5f</span> <span class="o">+</span> <span class="n">cos</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="o">*</span> <span class="n">m_strokeSize</span><span class="p">));</span>
 </span><span class='line'>        <span class="n">spriteText</span><span class="o">-&gt;</span><span class="n">visit</span><span class="p">();</span>
 </span><span class='line'>    <span class="p">}</span>
 </span><span class='line'>
