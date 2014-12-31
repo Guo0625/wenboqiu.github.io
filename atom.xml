@@ -4,7 +4,7 @@
   <title><![CDATA[Wenbo's Blog]]></title>
   <link href="http://wenboqiu.github.io/atom.xml" rel="self"/>
   <link href="http://wenboqiu.github.io/"/>
-  <updated>2014-12-31T17:29:38+08:00</updated>
+  <updated>2014-12-31T17:35:10+08:00</updated>
   <id>http://wenboqiu.github.io/</id>
   <author>
     <name><![CDATA[Wenbo Qiu]]></name>
@@ -18,11 +18,14 @@
     <link href="http://wenboqiu.github.io/blog/2014/12/31/talk-about-in-game-updating/"/>
     <updated>2014-12-31T15:09:32+08:00</updated>
     <id>http://wenboqiu.github.io/blog/2014/12/31/talk-about-in-game-updating</id>
-    <content type="html"><![CDATA[<p><img src="http://wenboqiu.github.io/images/img_updating.jpg" title="MonsterBall" ></p>
+    <content type="html"><![CDATA[<p><img src="http://wenboqiu.github.io/images/img_updating.jpg" width="320" height="768" title="MonsterBall" ></p>
 
 <p>大家如果经常玩手游的话，我相信对上面这个画面一定不陌生。上面这个是腾讯代理的怪物弹珠的更新界面，还有些游戏更新界面设计的更加花哨，更加卖萌，目的只有一个，亲，快更新到最新版本吧，否则不能玩哦。</p>
 
 <p>本来更新无可厚非，任何一个软件（游戏），总是存在bug的，总是有需求不完善的地方，通过后续更新，修正bug，更新功能，可以持续的给玩家以新内容，保持游戏的活力，最大的限度的留住玩家。但是任何一种手段使用过度的话，总是有副作用的，游戏更新也不例外。</p>
+
+<!--more-->
+
 
 <p>在说这个副作用之前，先简要介绍一下ios游戏更新的历史吧。早期，appstore上的应用程序和游戏都是通过appstore的更新机制提供更新给玩家，当开发商开发了一个新版本的程序或游戏，需要提交appstore进行审核，正常的审核周期是一周，如果碰到审核不通过之类的情况，于是又返工修正，有可能月余也无法在appstore里面上线。对每一个开发团队来说，任何一次app提交流程都是一个慎之又慎的经历，生怕一个细节的疏忽，导致delay。后来，cocos2dx添加了对脚本的支持，以前一般通过c++语言编写游戏逻辑，然后开发者编译打包，提交审核，现在呢，只需要在游戏内下载更新脚本文件，游戏都不需要重启，就可以加载新的脚本文件，运行新的逻辑。于是广大开发团队欢呼雀跃，终于不用老看苹果的眼色行事啦。</p>
 
