@@ -4,7 +4,7 @@
   <title><![CDATA[Wenbo's Blog]]></title>
   <link href="http://wenboqiu.github.io/atom.xml" rel="self"/>
   <link href="http://wenboqiu.github.io/"/>
-  <updated>2015-01-11T10:36:43+08:00</updated>
+  <updated>2015-01-11T10:40:36+08:00</updated>
   <id>http://wenboqiu.github.io/</id>
   <author>
     <name><![CDATA[Wenbo Qiu]]></name>
@@ -14,16 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[About Self-confident]]></title>
-    <link href="http://wenboqiu.github.io/blog/2015/01/09/about-self-confident/"/>
-    <updated>2015-01-09T19:08:09+08:00</updated>
-    <id>http://wenboqiu.github.io/blog/2015/01/09/about-self-confident</id>
-    <content type="html"><![CDATA[
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[“名人语录”]]></title>
+    <title type="html"><![CDATA[名人语录]]></title>
     <link href="http://wenboqiu.github.io/blog/2015/01/09/follow-your-heart/"/>
     <updated>2015-01-09T18:56:01+08:00</updated>
     <id>http://wenboqiu.github.io/blog/2015/01/09/follow-your-heart</id>
