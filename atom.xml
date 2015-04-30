@@ -4,7 +4,7 @@
   <title><![CDATA[Wenbo's Blog]]></title>
   <link href="http://wenboqiu.github.io/atom.xml" rel="self"/>
   <link href="http://wenboqiu.github.io/"/>
-  <updated>2015-01-11T10:40:36+08:00</updated>
+  <updated>2015-04-30T10:21:16+08:00</updated>
   <id>http://wenboqiu.github.io/</id>
   <author>
     <name><![CDATA[Wenbo Qiu]]></name>
@@ -376,7 +376,7 @@
 </span><span class='line'>      <span class="kd">final</span> <span class="n">Paint</span> <span class="n">paintStroke</span> <span class="o">=</span> <span class="n">Cocos2dxBitmap</span><span class="o">.</span><span class="na">newPaint</span><span class="o">(</span><span class="n">pFontName</span><span class="o">,</span> <span class="n">pFontSize</span><span class="o">,</span> <span class="n">horizontalAlignment</span><span class="o">);</span>
 </span><span class='line'>      <span class="n">paintStroke</span><span class="o">.</span><span class="na">setStyle</span><span class="o">(</span><span class="n">Paint</span><span class="o">.</span><span class="na">Style</span><span class="o">.</span><span class="na">STROKE</span><span class="o">);</span>
 </span><span class='line'>      <span class="n">paintStroke</span><span class="o">.</span><span class="na">setStrokeWidth</span><span class="o">(</span><span class="n">strokeSize</span><span class="o">);</span>
-</span><span class='line'>      <span class="n">paintStroke</span><span class="o">.</span><span class="na">setARGB</span><span class="o">(</span><span class="mi">255</span><span class="o">,</span> <span class="o">(</span><span class="kt">int</span><span class="o">)</span><span class="n">strokeR</span> <span class="o">*</span> <span class="mi">255</span><span class="o">,</span> <span class="o">(</span><span class="kt">int</span><span class="o">)</span><span class="n">strokeG</span> <span class="o">*</span> <span class="mi">255</span><span class="o">,</span> <span class="o">(</span><span class="kt">int</span><span class="o">)</span><span class="n">strokeB</span> <span class="o">*</span> <span class="mi">255</span><span class="o">);</span>
+</span><span class='line'>      <span class="n">paintStroke</span><span class="o">.</span><span class="na">setARGB</span><span class="o">(</span><span class="mi">255</span><span class="o">,</span> <span class="o">(</span><span class="kt">int</span><span class="o">)(</span><span class="n">strokeR</span> <span class="o">*</span> <span class="mi">255</span><span class="o">),</span> <span class="o">(</span><span class="kt">int</span><span class="o">)(</span><span class="n">strokeG</span> <span class="o">*</span> <span class="mi">255</span><span class="o">),</span> <span class="o">(</span><span class="kt">int</span><span class="o">)(</span><span class="n">strokeB</span> <span class="o">*</span> <span class="mi">255</span><span class="o">);</span>
 </span><span class='line'>      
 </span><span class='line'>      <span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
 </span><span class='line'>      <span class="kt">int</span> <span class="n">y</span> <span class="o">=</span> <span class="n">Cocos2dxBitmap</span><span class="o">.</span><span class="na">computeY</span><span class="o">(</span><span class="n">fontMetricsInt</span><span class="o">,</span> <span class="n">pHeight</span><span class="o">,</span> <span class="n">textProperty</span><span class="o">.</span><span class="na">mTotalHeight</span><span class="o">,</span> <span class="n">verticalAlignment</span><span class="o">);</span>
