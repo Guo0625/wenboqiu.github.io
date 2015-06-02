@@ -161,7 +161,7 @@ public static void createTextBitmapShadowStroke(String pString,  final String pF
 		final Paint paintStroke = Cocos2dxBitmap.newPaint(pFontName, pFontSize, horizontalAlignment);
 		paintStroke.setStyle(Paint.Style.STROKE);
 		paintStroke.setStrokeWidth(strokeSize);
-		paintStroke.setARGB(255, (int)strokeR * 255, (int)strokeG * 255, (int)strokeB * 255);
+		paintStroke.setARGB(255, (int)(strokeR * 255), (int)(strokeG * 255), (int)(strokeB * 255);
 		
 		int x = 0;
 		int y = Cocos2dxBitmap.computeY(fontMetricsInt, pHeight, textProperty.mTotalHeight, verticalAlignment);
@@ -303,8 +303,8 @@ static bool _initWithString(const char * pText, cocos2d::CCImage::ETextAlign eAl
         
         if ( pInfo->hasStroke )
         {
-            shadowStrokePaddingX = ceilf(pInfo->strokeSize);
-            shadowStrokePaddingY = ceilf(pInfo->strokeSize);
+            shadowStrokePaddingX = (ceilf(pInfo->strokeSize))*2;
+            shadowStrokePaddingY = (ceilf(pInfo->strokeSize))*2;
         }
         
         if ( pInfo->hasShadow )
@@ -314,8 +314,8 @@ static bool _initWithString(const char * pText, cocos2d::CCImage::ETextAlign eAl
         }
         
         // add the padding (this could be 0 if no shadow and no stroke)
-        dim.width  += shadowStrokePaddingX*2;
-        dim.height += shadowStrokePaddingY*2;
+        dim.width  += shadowStrokePaddingX;
+        dim.height += shadowStrokePaddingY;
         
         
         unsigned char* data = new unsigned char[(int)(dim.width * dim.height * 4)];
@@ -342,11 +342,11 @@ static bool _initWithString(const char * pText, cocos2d::CCImage::ETextAlign eAl
         // text color
         CGContextSetRGBFillColor(context, pInfo->tintColorR, pInfo->tintColorG, pInfo->tintColorB, 1);
         // move Y rendering to the top of the image
-        CGContextTranslateCTM(context, 0.0f, (dim.height - shadowStrokePaddingY) );
+        CGContextTranslateCTM(context, 0.0f, (dim.height - shadowStrokePaddingY));
         CGContextScaleCTM(context, 1.0f, -1.0f); //NOTE: NSString draws in UIKit referential i.e. renders upside-down compared to CGBitmapContext referential
         
         // store the current context
-        UIGraphicsPushContext(context);
+        //UIGraphicsPushContext(context);
         
         // measure text size with specified font and determine the rectangle to draw text in
         unsigned uHoriFlag = eAlign & 0x0f;
@@ -356,20 +356,40 @@ static bool _initWithString(const char * pText, cocos2d::CCImage::ETextAlign eAl
         
         //------------------------------------------------------------------------------------
         
-        // compute the rect used for rendering the text
-        // based on wether shadows or stroke are enabled
+        CGRect rect = CGRectMake(0, startH - shadowStrokePaddingY, dim.width, dim.height);
         
-        float textOriginX  = 0;
-        float textOrigingY = startH;
-        
-        float textWidth    = dim.width;
-        float textHeight   = dim.height;
-        
-        CGRect rect = CGRectMake(textOriginX, textOrigingY, textWidth, textHeight);
+        UIGraphicsPushContext(context);
         
         CGContextSetShouldSubpixelQuantizeFonts(context, false);
         
         CGContextBeginTransparencyLayerWithRect(context, rect, NULL);
+        
+        float textOriginX  = 0.0;
+        float textOrigingY = 0.0;
+        
+        float textWidth    = dim.width  - shadowStrokePaddingX;
+        float textHeight   = dim.height - shadowStrokePaddingY;
+        
+        
+        if ( pInfo->shadowOffset.width < 0 )
+        {
+            textOriginX = shadowStrokePaddingX;
+        }
+        else
+        {
+            textOriginX = 0.0;
+        }
+        
+        if (pInfo->shadowOffset.height > 0)
+        {
+            textOrigingY = startH;
+        }
+        else
+        {
+            textOrigingY = startH - shadowStrokePaddingY;
+        }
+        
+        CGRect textRect = CGRectMake(textOriginX, textOrigingY, textWidth, textHeight);
         
         if ( pInfo->hasStroke )
         {
@@ -380,7 +400,7 @@ static bool _initWithString(const char * pText, cocos2d::CCImage::ETextAlign eAl
                 NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
                 paragraphStyle.alignment = align;
                 paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
-                [str drawInRect:rect withAttributes:@{
+                [str drawInRect:textRect withAttributes:@{
                                                       NSFontAttributeName: font,
                                                       NSStrokeWidthAttributeName: [NSNumber numberWithFloat: pInfo->strokeSize / nSize * 100 ],
                                                       NSForegroundColorAttributeName:[UIColor colorWithRed:pInfo->tintColorR
@@ -403,14 +423,42 @@ static bool _initWithString(const char * pText, cocos2d::CCImage::ETextAlign eAl
                 CGContextSetLineWidth(context, pInfo->strokeSize);
                 
                 //original code that was not working in iOS 7
-                [str drawInRect: rect withFont:font lineBreakMode:NSLineBreakByWordWrapping alignment:align];
+                [str drawInRect: textRect withFont:font lineBreakMode:NSLineBreakByWordWrapping alignment:align];
             }
         }
         
+        // take care of shadow if needed
+        if ( pInfo->hasShadow )
+        {
+            CGSize offset;
+            offset.height = pInfo->shadowOffset.height;
+            offset.width  = pInfo->shadowOffset.width;
+            CGContextSetShadow(context, offset, pInfo->shadowBlur);
+        }
+        
+        //------------------------------------------------------------------------------------
+        
+        // normal fonts
+        //if( [font isKindOfClass:[UIFont class] ] )
+        //{
+        //    [str drawInRect:CGRectMake(0, startH, dim.width, dim.height) withFont:font lineBreakMode:(UILineBreakMode)UILineBreakModeWordWrap alignment:align];
+        //}
+        //else // ZFont class
+        //{
+        //    [FontLabelStringDrawingHelper drawInRect:str rect:CGRectMake(0, startH, dim.width, dim.height) withZFont:font lineBreakMode:(UILineBreakMode)UILineBreakModeWordWrap 
+        ////alignment:align];
+        //}
+
+        //------------------------------------------------------------------------------------
+        // actually draw the text in the context
+        // XXX: ios7 casting
+        //[str drawInRect:CGRectMake(textOriginX, textOrigingY, textWidth, textHeight) withFont:font lineBreakMode:NSLineBreakByWordWrapping alignment:(NSTextAlignment)align];
+        
         CGContextSetTextDrawingMode(context, kCGTextFill);
         
+        
         // actually draw the text in the context
-        [str drawInRect: rect withFont:font lineBreakMode:NSLineBreakByWordWrapping alignment:align];
+        [str drawInRect: textRect withFont:font lineBreakMode:NSLineBreakByWordWrapping alignment:align];
         
         CGContextEndTransparencyLayer(context);
         
@@ -437,3 +485,87 @@ static bool _initWithString(const char * pText, cocos2d::CCImage::ETextAlign eAl
 {% endcodeblock %}
 
 修改完上述两个文件，Cococs2d-x 2.x版本就能完美支持外描边啦。
+
+2015/6/2更新1：更新CCImage.mm代码，修正字体阴影的错误。
+2015/6/2更新2：前几天Byron Song同学反应描边有问题，经过测试，按下面写法，能够得到正确的描边和阴影效果的。
+
+{% codeblock lang:cpp %}          
+TTFFontShadowAndStroke::TTFFontShadowAndStroke()
+{
+    CCLayerColor *layer = CCLayerColor::create(ccc4(0,190,0,255));
+    addChild(layer, -10);
+    
+    CCSize s = CCDirector::sharedDirector()->getWinSize();
+    
+    ccColor3B tintColorRed      =  { 255, 0, 0   };
+    ccColor3B tintColorYellow   =  { 255, 255, 0 };
+    ccColor3B tintColorBlue     =  { 0, 0, 255   };
+    ccColor3B strokeColor       =  { 0, 10, 255  };
+    ccColor3B strokeShadowColor =  { 255, 0, 0   };
+    
+    CCSize shadowOffset(42.0, -42.0);
+    
+    ccFontDefinition shadowTextDef;
+    shadowTextDef.m_fontSize = 20;
+    shadowTextDef.m_fontName = std::string("Marker Felt");
+    
+    shadowTextDef.m_shadow.m_shadowEnabled = true;
+    shadowTextDef.m_shadow.m_shadowOffset  = shadowOffset;
+    shadowTextDef.m_shadow.m_shadowOpacity = 1.0;
+    shadowTextDef.m_shadow.m_shadowBlur    = 1.0;
+    shadowTextDef.m_fontFillColor   = tintColorRed;
+    
+    // shadow only label
+    CCLabelTTF* fontShadow = CCLabelTTF::createWithFontDefinition("Shadow Only Red Text", shadowTextDef);
+    
+    // add label to the scene
+    this->addChild(fontShadow);
+    fontShadow->setPosition(ccp(s.width/2,s.height/4*2.5));
+    
+    
+    
+    // create the stroke only label
+    ccFontDefinition strokeTextDef;
+    strokeTextDef.m_fontSize = 20;
+    strokeTextDef.m_fontName = std::string("Marker Felt");
+    
+    strokeTextDef.m_stroke.m_strokeEnabled = false;
+    strokeTextDef.m_stroke.m_strokeColor   = strokeColor;
+    strokeTextDef.m_stroke.m_strokeSize    = 1.5;
+    
+    strokeTextDef.m_fontFillColor   = tintColorYellow;
+    
+    // stroke only label
+    CCLabelTTF* fontStroke = CCLabelTTF::createWithFontDefinition("Stroke Only Red Text", strokeTextDef);
+    
+    // add label to the scene
+    this->addChild(fontStroke);
+    fontStroke->setPosition(ccp(s.width/2,s.height/4*1.8));
+    
+    
+    
+    // create the label stroke and shadow
+    ccFontDefinition strokeShaodwTextDef;
+    strokeShaodwTextDef.m_fontSize = 20;
+    strokeShaodwTextDef.m_fontName = std::string("Marker Felt");
+    
+    strokeShaodwTextDef.m_stroke.m_strokeEnabled = true;
+    strokeShaodwTextDef.m_stroke.m_strokeColor   = strokeShadowColor;
+    strokeShaodwTextDef.m_stroke.m_strokeSize    = 1.5;
+    
+    strokeShaodwTextDef.m_shadow.m_shadowEnabled = true;
+    strokeShaodwTextDef.m_shadow.m_shadowOffset  = shadowOffset;
+    strokeShaodwTextDef.m_shadow.m_shadowOpacity = 1.0;
+    strokeShaodwTextDef.m_shadow.m_shadowBlur    = 1.0;
+    
+    
+    strokeShaodwTextDef.m_fontFillColor   = tintColorBlue;
+    
+    // shadow + stroke label
+    CCLabelTTF* fontStrokeAndShadow = CCLabelTTF::createWithFontDefinition("Stroke & Shadow Blue Text", strokeShaodwTextDef);
+    
+    // add label to the scene
+    this->addChild(fontStrokeAndShadow);
+    fontStrokeAndShadow->setPosition(ccp(s.width/2,s.height/4*1.1)); 
+}
+{% endcodeblock %}
