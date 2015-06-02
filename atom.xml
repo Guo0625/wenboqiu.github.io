@@ -4,7 +4,7 @@
   <title><![CDATA[Wenbo's Blog]]></title>
   <link href="http://wenboqiu.github.io/atom.xml" rel="self"/>
   <link href="http://wenboqiu.github.io/"/>
-  <updated>2015-05-07T21:02:16+08:00</updated>
+  <updated>2015-06-02T21:59:02+08:00</updated>
   <id>http://wenboqiu.github.io/</id>
   <author>
     <name><![CDATA[Wenbo Qiu]]></name>
@@ -646,6 +646,54 @@
 <span class='line-number'>229</span>
 <span class='line-number'>230</span>
 <span class='line-number'>231</span>
+<span class='line-number'>232</span>
+<span class='line-number'>233</span>
+<span class='line-number'>234</span>
+<span class='line-number'>235</span>
+<span class='line-number'>236</span>
+<span class='line-number'>237</span>
+<span class='line-number'>238</span>
+<span class='line-number'>239</span>
+<span class='line-number'>240</span>
+<span class='line-number'>241</span>
+<span class='line-number'>242</span>
+<span class='line-number'>243</span>
+<span class='line-number'>244</span>
+<span class='line-number'>245</span>
+<span class='line-number'>246</span>
+<span class='line-number'>247</span>
+<span class='line-number'>248</span>
+<span class='line-number'>249</span>
+<span class='line-number'>250</span>
+<span class='line-number'>251</span>
+<span class='line-number'>252</span>
+<span class='line-number'>253</span>
+<span class='line-number'>254</span>
+<span class='line-number'>255</span>
+<span class='line-number'>256</span>
+<span class='line-number'>257</span>
+<span class='line-number'>258</span>
+<span class='line-number'>259</span>
+<span class='line-number'>260</span>
+<span class='line-number'>261</span>
+<span class='line-number'>262</span>
+<span class='line-number'>263</span>
+<span class='line-number'>264</span>
+<span class='line-number'>265</span>
+<span class='line-number'>266</span>
+<span class='line-number'>267</span>
+<span class='line-number'>268</span>
+<span class='line-number'>269</span>
+<span class='line-number'>270</span>
+<span class='line-number'>271</span>
+<span class='line-number'>272</span>
+<span class='line-number'>273</span>
+<span class='line-number'>274</span>
+<span class='line-number'>275</span>
+<span class='line-number'>276</span>
+<span class='line-number'>277</span>
+<span class='line-number'>278</span>
+<span class='line-number'>279</span>
 </pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">static</span> <span class="n">bool</span> <span class="n">s_isIOS7OrHigher</span> <span class="o">=</span> <span class="n">false</span><span class="p">;</span>
 </span><span class='line'>
 </span><span class='line'><span class="k">static</span> <span class="kr">inline</span> <span class="kt">void</span> <span class="nf">lazyCheckIOS7</span><span class="p">()</span>
@@ -747,8 +795,8 @@
 </span><span class='line'>
 </span><span class='line'>        <span class="k">if</span> <span class="p">(</span> <span class="n">pInfo</span><span class="o">-&gt;</span><span class="n">hasStroke</span> <span class="p">)</span>
 </span><span class='line'>        <span class="p">{</span>
-</span><span class='line'>            <span class="n">shadowStrokePaddingX</span> <span class="o">=</span> <span class="n">ceilf</span><span class="p">(</span><span class="n">pInfo</span><span class="o">-&gt;</span><span class="n">strokeSize</span><span class="p">);</span>
-</span><span class='line'>            <span class="n">shadowStrokePaddingY</span> <span class="o">=</span> <span class="n">ceilf</span><span class="p">(</span><span class="n">pInfo</span><span class="o">-&gt;</span><span class="n">strokeSize</span><span class="p">);</span>
+</span><span class='line'>            <span class="n">shadowStrokePaddingX</span> <span class="o">=</span> <span class="p">(</span><span class="n">ceilf</span><span class="p">(</span><span class="n">pInfo</span><span class="o">-&gt;</span><span class="n">strokeSize</span><span class="p">))</span><span class="o">*</span><span class="mi">2</span><span class="p">;</span>
+</span><span class='line'>            <span class="n">shadowStrokePaddingY</span> <span class="o">=</span> <span class="p">(</span><span class="n">ceilf</span><span class="p">(</span><span class="n">pInfo</span><span class="o">-&gt;</span><span class="n">strokeSize</span><span class="p">))</span><span class="o">*</span><span class="mi">2</span><span class="p">;</span>
 </span><span class='line'>        <span class="p">}</span>
 </span><span class='line'>
 </span><span class='line'>        <span class="k">if</span> <span class="p">(</span> <span class="n">pInfo</span><span class="o">-&gt;</span><span class="n">hasShadow</span> <span class="p">)</span>
@@ -758,8 +806,8 @@
 </span><span class='line'>        <span class="p">}</span>
 </span><span class='line'>
 </span><span class='line'>        <span class="c1">// add the padding (this could be 0 if no shadow and no stroke)</span>
-</span><span class='line'>        <span class="n">dim</span><span class="p">.</span><span class="n">width</span>  <span class="o">+=</span> <span class="n">shadowStrokePaddingX</span><span class="o">*</span><span class="mi">2</span><span class="p">;</span>
-</span><span class='line'>        <span class="n">dim</span><span class="p">.</span><span class="n">height</span> <span class="o">+=</span> <span class="n">shadowStrokePaddingY</span><span class="o">*</span><span class="mi">2</span><span class="p">;</span>
+</span><span class='line'>        <span class="n">dim</span><span class="p">.</span><span class="n">width</span>  <span class="o">+=</span> <span class="n">shadowStrokePaddingX</span><span class="p">;</span>
+</span><span class='line'>        <span class="n">dim</span><span class="p">.</span><span class="n">height</span> <span class="o">+=</span> <span class="n">shadowStrokePaddingY</span><span class="p">;</span>
 </span><span class='line'>
 </span><span class='line'>
 </span><span class='line'>        <span class="kt">unsigned</span> <span class="kt">char</span><span class="o">*</span> <span class="n">data</span> <span class="o">=</span> <span class="n">new</span> <span class="kt">unsigned</span> <span class="kt">char</span><span class="p">[(</span><span class="kt">int</span><span class="p">)(</span><span class="n">dim</span><span class="p">.</span><span class="n">width</span> <span class="o">*</span> <span class="n">dim</span><span class="p">.</span><span class="n">height</span> <span class="o">*</span> <span class="mi">4</span><span class="p">)];</span>
@@ -786,11 +834,11 @@
 </span><span class='line'>        <span class="c1">// text color</span>
 </span><span class='line'>        <span class="n">CGContextSetRGBFillColor</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">pInfo</span><span class="o">-&gt;</span><span class="n">tintColorR</span><span class="p">,</span> <span class="n">pInfo</span><span class="o">-&gt;</span><span class="n">tintColorG</span><span class="p">,</span> <span class="n">pInfo</span><span class="o">-&gt;</span><span class="n">tintColorB</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
 </span><span class='line'>        <span class="c1">// move Y rendering to the top of the image</span>
-</span><span class='line'>        <span class="n">CGContextTranslateCTM</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="mf">0.0f</span><span class="p">,</span> <span class="p">(</span><span class="n">dim</span><span class="p">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">shadowStrokePaddingY</span><span class="p">)</span> <span class="p">);</span>
+</span><span class='line'>        <span class="n">CGContextTranslateCTM</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="mf">0.0f</span><span class="p">,</span> <span class="p">(</span><span class="n">dim</span><span class="p">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">shadowStrokePaddingY</span><span class="p">));</span>
 </span><span class='line'>        <span class="n">CGContextScaleCTM</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="mf">1.0f</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0f</span><span class="p">);</span> <span class="c1">//NOTE: NSString draws in UIKit referential i.e. renders upside-down compared to CGBitmapContext referential</span>
 </span><span class='line'>
 </span><span class='line'>        <span class="c1">// store the current context</span>
-</span><span class='line'>        <span class="n">UIGraphicsPushContext</span><span class="p">(</span><span class="n">context</span><span class="p">);</span>
+</span><span class='line'>        <span class="c1">//UIGraphicsPushContext(context);</span>
 </span><span class='line'>
 </span><span class='line'>        <span class="c1">// measure text size with specified font and determine the rectangle to draw text in</span>
 </span><span class='line'>        <span class="kt">unsigned</span> <span class="n">uHoriFlag</span> <span class="o">=</span> <span class="n">eAlign</span> <span class="o">&amp;</span> <span class="mh">0x0f</span><span class="p">;</span>
@@ -800,20 +848,40 @@
 </span><span class='line'>
 </span><span class='line'>        <span class="c1">//------------------------------------------------------------------------------------</span>
 </span><span class='line'>
-</span><span class='line'>        <span class="c1">// compute the rect used for rendering the text</span>
-</span><span class='line'>        <span class="c1">// based on wether shadows or stroke are enabled</span>
+</span><span class='line'>        <span class="n">CGRect</span> <span class="n">rect</span> <span class="o">=</span> <span class="n">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">startH</span> <span class="o">-</span> <span class="n">shadowStrokePaddingY</span><span class="p">,</span> <span class="n">dim</span><span class="p">.</span><span class="n">width</span><span class="p">,</span> <span class="n">dim</span><span class="p">.</span><span class="n">height</span><span class="p">);</span>
 </span><span class='line'>
-</span><span class='line'>        <span class="kt">float</span> <span class="n">textOriginX</span>  <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-</span><span class='line'>        <span class="kt">float</span> <span class="n">textOrigingY</span> <span class="o">=</span> <span class="n">startH</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="kt">float</span> <span class="n">textWidth</span>    <span class="o">=</span> <span class="n">dim</span><span class="p">.</span><span class="n">width</span><span class="p">;</span>
-</span><span class='line'>        <span class="kt">float</span> <span class="n">textHeight</span>   <span class="o">=</span> <span class="n">dim</span><span class="p">.</span><span class="n">height</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="n">CGRect</span> <span class="n">rect</span> <span class="o">=</span> <span class="n">CGRectMake</span><span class="p">(</span><span class="n">textOriginX</span><span class="p">,</span> <span class="n">textOrigingY</span><span class="p">,</span> <span class="n">textWidth</span><span class="p">,</span> <span class="n">textHeight</span><span class="p">);</span>
+</span><span class='line'>        <span class="n">UIGraphicsPushContext</span><span class="p">(</span><span class="n">context</span><span class="p">);</span>
 </span><span class='line'>
 </span><span class='line'>        <span class="n">CGContextSetShouldSubpixelQuantizeFonts</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">false</span><span class="p">);</span>
 </span><span class='line'>
 </span><span class='line'>        <span class="n">CGContextBeginTransparencyLayerWithRect</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">rect</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="kt">float</span> <span class="n">textOriginX</span>  <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
+</span><span class='line'>        <span class="kt">float</span> <span class="n">textOrigingY</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="kt">float</span> <span class="n">textWidth</span>    <span class="o">=</span> <span class="n">dim</span><span class="p">.</span><span class="n">width</span>  <span class="o">-</span> <span class="n">shadowStrokePaddingX</span><span class="p">;</span>
+</span><span class='line'>        <span class="kt">float</span> <span class="n">textHeight</span>   <span class="o">=</span> <span class="n">dim</span><span class="p">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">shadowStrokePaddingY</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span> <span class="n">pInfo</span><span class="o">-&gt;</span><span class="n">shadowOffset</span><span class="p">.</span><span class="n">width</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="p">)</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>            <span class="n">textOriginX</span> <span class="o">=</span> <span class="n">shadowStrokePaddingX</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">else</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>            <span class="n">textOriginX</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="n">pInfo</span><span class="o">-&gt;</span><span class="n">shadowOffset</span><span class="p">.</span><span class="n">height</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>            <span class="n">textOrigingY</span> <span class="o">=</span> <span class="n">startH</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">else</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>            <span class="n">textOrigingY</span> <span class="o">=</span> <span class="n">startH</span> <span class="o">-</span> <span class="n">shadowStrokePaddingY</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">CGRect</span> <span class="n">textRect</span> <span class="o">=</span> <span class="n">CGRectMake</span><span class="p">(</span><span class="n">textOriginX</span><span class="p">,</span> <span class="n">textOrigingY</span><span class="p">,</span> <span class="n">textWidth</span><span class="p">,</span> <span class="n">textHeight</span><span class="p">);</span>
 </span><span class='line'>
 </span><span class='line'>        <span class="k">if</span> <span class="p">(</span> <span class="n">pInfo</span><span class="o">-&gt;</span><span class="n">hasStroke</span> <span class="p">)</span>
 </span><span class='line'>        <span class="p">{</span>
@@ -824,7 +892,7 @@
 </span><span class='line'>                <span class="n">NSMutableParagraphStyle</span> <span class="o">*</span><span class="n">paragraphStyle</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSMutableParagraphStyle</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
 </span><span class='line'>                <span class="n">paragraphStyle</span><span class="p">.</span><span class="n">alignment</span> <span class="o">=</span> <span class="n">align</span><span class="p">;</span>
 </span><span class='line'>                <span class="n">paragraphStyle</span><span class="p">.</span><span class="n">lineBreakMode</span> <span class="o">=</span> <span class="n">NSLineBreakByWordWrapping</span><span class="p">;</span>
-</span><span class='line'>                <span class="p">[</span><span class="n">str</span> <span class="nl">drawInRect:</span><span class="n">rect</span> <span class="nl">withAttributes:</span><span class="err">@</span><span class="p">{</span>
+</span><span class='line'>                <span class="p">[</span><span class="n">str</span> <span class="nl">drawInRect:</span><span class="n">textRect</span> <span class="nl">withAttributes:</span><span class="err">@</span><span class="p">{</span>
 </span><span class='line'>                                                      <span class="nl">NSFontAttributeName:</span> <span class="n">font</span><span class="p">,</span>
 </span><span class='line'>                                                      <span class="nl">NSStrokeWidthAttributeName:</span> <span class="p">[</span><span class="n">NSNumber</span> <span class="nl">numberWithFloat:</span> <span class="n">pInfo</span><span class="o">-&gt;</span><span class="n">strokeSize</span> <span class="o">/</span> <span class="n">nSize</span> <span class="o">*</span> <span class="mi">100</span> <span class="p">],</span>
 </span><span class='line'>                                                      <span class="nl">NSForegroundColorAttributeName:</span><span class="p">[</span><span class="n">UIColor</span> <span class="nl">colorWithRed:</span><span class="n">pInfo</span><span class="o">-&gt;</span><span class="n">tintColorR</span>
@@ -847,14 +915,42 @@
 </span><span class='line'>                <span class="n">CGContextSetLineWidth</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">pInfo</span><span class="o">-&gt;</span><span class="n">strokeSize</span><span class="p">);</span>
 </span><span class='line'>
 </span><span class='line'>                <span class="c1">//original code that was not working in iOS 7</span>
-</span><span class='line'>                <span class="p">[</span><span class="n">str</span> <span class="nl">drawInRect:</span> <span class="n">rect</span> <span class="nl">withFont:</span><span class="n">font</span> <span class="nl">lineBreakMode:</span><span class="n">NSLineBreakByWordWrapping</span> <span class="nl">alignment:</span><span class="n">align</span><span class="p">];</span>
+</span><span class='line'>                <span class="p">[</span><span class="n">str</span> <span class="nl">drawInRect:</span> <span class="n">textRect</span> <span class="nl">withFont:</span><span class="n">font</span> <span class="nl">lineBreakMode:</span><span class="n">NSLineBreakByWordWrapping</span> <span class="nl">alignment:</span><span class="n">align</span><span class="p">];</span>
 </span><span class='line'>            <span class="p">}</span>
 </span><span class='line'>        <span class="p">}</span>
 </span><span class='line'>
+</span><span class='line'>        <span class="c1">// take care of shadow if needed</span>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span> <span class="n">pInfo</span><span class="o">-&gt;</span><span class="n">hasShadow</span> <span class="p">)</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>            <span class="n">CGSize</span> <span class="n">offset</span><span class="p">;</span>
+</span><span class='line'>            <span class="n">offset</span><span class="p">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">pInfo</span><span class="o">-&gt;</span><span class="n">shadowOffset</span><span class="p">.</span><span class="n">height</span><span class="p">;</span>
+</span><span class='line'>            <span class="n">offset</span><span class="p">.</span><span class="n">width</span>  <span class="o">=</span> <span class="n">pInfo</span><span class="o">-&gt;</span><span class="n">shadowOffset</span><span class="p">.</span><span class="n">width</span><span class="p">;</span>
+</span><span class='line'>            <span class="n">CGContextSetShadow</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">offset</span><span class="p">,</span> <span class="n">pInfo</span><span class="o">-&gt;</span><span class="n">shadowBlur</span><span class="p">);</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c1">//------------------------------------------------------------------------------------</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c1">// normal fonts</span>
+</span><span class='line'>        <span class="c1">//if( [font isKindOfClass:[UIFont class] ] )</span>
+</span><span class='line'>        <span class="c1">//{</span>
+</span><span class='line'>        <span class="c1">//    [str drawInRect:CGRectMake(0, startH, dim.width, dim.height) withFont:font lineBreakMode:(UILineBreakMode)UILineBreakModeWordWrap alignment:align];</span>
+</span><span class='line'>        <span class="c1">//}</span>
+</span><span class='line'>        <span class="c1">//else // ZFont class</span>
+</span><span class='line'>        <span class="c1">//{</span>
+</span><span class='line'>        <span class="c1">//    [FontLabelStringDrawingHelper drawInRect:str rect:CGRectMake(0, startH, dim.width, dim.height) withZFont:font lineBreakMode:(UILineBreakMode)UILineBreakModeWordWrap </span>
+</span><span class='line'>        <span class="c1">////alignment:align];</span>
+</span><span class='line'>        <span class="c1">//}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c1">//------------------------------------------------------------------------------------</span>
+</span><span class='line'>        <span class="c1">// actually draw the text in the context</span>
+</span><span class='line'>        <span class="c1">// XXX: ios7 casting</span>
+</span><span class='line'>        <span class="c1">//[str drawInRect:CGRectMake(textOriginX, textOrigingY, textWidth, textHeight) withFont:font lineBreakMode:NSLineBreakByWordWrapping alignment:(NSTextAlignment)align];</span>
+</span><span class='line'>
 </span><span class='line'>        <span class="n">CGContextSetTextDrawingMode</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">kCGTextFill</span><span class="p">);</span>
 </span><span class='line'>
+</span><span class='line'>
 </span><span class='line'>        <span class="c1">// actually draw the text in the context</span>
-</span><span class='line'>        <span class="p">[</span><span class="n">str</span> <span class="nl">drawInRect:</span> <span class="n">rect</span> <span class="nl">withFont:</span><span class="n">font</span> <span class="nl">lineBreakMode:</span><span class="n">NSLineBreakByWordWrapping</span> <span class="nl">alignment:</span><span class="n">align</span><span class="p">];</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">str</span> <span class="nl">drawInRect:</span> <span class="n">textRect</span> <span class="nl">withFont:</span><span class="n">font</span> <span class="nl">lineBreakMode:</span><span class="n">NSLineBreakByWordWrapping</span> <span class="nl">alignment:</span><span class="n">align</span><span class="p">];</span>
 </span><span class='line'>
 </span><span class='line'>        <span class="n">CGContextEndTransparencyLayer</span><span class="p">(</span><span class="n">context</span><span class="p">);</span>
 </span><span class='line'>
@@ -881,6 +977,170 @@
 
 
 <p>修改完上述两个文件，Cococs2d-x 2.x版本就能完美支持外描边啦。</p>
+
+<p>2015/6/2更新1：更新CCImage.mm代码，修正字体阴影的错误。
+2015/6/2更新2：前几天Byron Song同学反应描边有问题，经过测试，按下面写法，能够得到正确的描边和阴影效果的。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'>
+</span><span class='line'><span class="n">TTFFontShadowAndStroke</span><span class="o">::</span><span class="n">TTFFontShadowAndStroke</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">CCLayerColor</span> <span class="o">*</span><span class="n">layer</span> <span class="o">=</span> <span class="n">CCLayerColor</span><span class="o">::</span><span class="n">create</span><span class="p">(</span><span class="n">ccc4</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">190</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">255</span><span class="p">));</span>
+</span><span class='line'>    <span class="n">addChild</span><span class="p">(</span><span class="n">layer</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">CCSize</span> <span class="n">s</span> <span class="o">=</span> <span class="n">CCDirector</span><span class="o">::</span><span class="n">sharedDirector</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">getWinSize</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">ccColor3B</span> <span class="n">tintColorRed</span>      <span class="o">=</span>  <span class="p">{</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>   <span class="p">};</span>
+</span><span class='line'>    <span class="n">ccColor3B</span> <span class="n">tintColorYellow</span>   <span class="o">=</span>  <span class="p">{</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span> <span class="p">};</span>
+</span><span class='line'>    <span class="n">ccColor3B</span> <span class="n">tintColorBlue</span>     <span class="o">=</span>  <span class="p">{</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span>   <span class="p">};</span>
+</span><span class='line'>    <span class="n">ccColor3B</span> <span class="n">strokeColor</span>       <span class="o">=</span>  <span class="p">{</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">255</span>  <span class="p">};</span>
+</span><span class='line'>    <span class="n">ccColor3B</span> <span class="n">strokeShadowColor</span> <span class="o">=</span>  <span class="p">{</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>   <span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">CCSize</span> <span class="n">shadowOffset</span><span class="p">(</span><span class="mf">42.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">42.0</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">ccFontDefinition</span> <span class="n">shadowTextDef</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">shadowTextDef</span><span class="p">.</span><span class="n">m_fontSize</span> <span class="o">=</span> <span class="mi">20</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">shadowTextDef</span><span class="p">.</span><span class="n">m_fontName</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Marker Felt&quot;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">shadowTextDef</span><span class="p">.</span><span class="n">m_shadow</span><span class="p">.</span><span class="n">m_shadowEnabled</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">shadowTextDef</span><span class="p">.</span><span class="n">m_shadow</span><span class="p">.</span><span class="n">m_shadowOffset</span>  <span class="o">=</span> <span class="n">shadowOffset</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">shadowTextDef</span><span class="p">.</span><span class="n">m_shadow</span><span class="p">.</span><span class="n">m_shadowOpacity</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">shadowTextDef</span><span class="p">.</span><span class="n">m_shadow</span><span class="p">.</span><span class="n">m_shadowBlur</span>    <span class="o">=</span> <span class="mf">1.0</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">shadowTextDef</span><span class="p">.</span><span class="n">m_fontFillColor</span>   <span class="o">=</span> <span class="n">tintColorRed</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// shadow only label</span>
+</span><span class='line'>    <span class="n">CCLabelTTF</span><span class="o">*</span> <span class="n">fontShadow</span> <span class="o">=</span> <span class="n">CCLabelTTF</span><span class="o">::</span><span class="n">createWithFontDefinition</span><span class="p">(</span><span class="s">&quot;Shadow Only Red Text&quot;</span><span class="p">,</span> <span class="n">shadowTextDef</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// add label to the scene</span>
+</span><span class='line'>    <span class="k">this</span><span class="o">-&gt;</span><span class="n">addChild</span><span class="p">(</span><span class="n">fontShadow</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">fontShadow</span><span class="o">-&gt;</span><span class="n">setPosition</span><span class="p">(</span><span class="n">ccp</span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">width</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="n">s</span><span class="p">.</span><span class="n">height</span><span class="o">/</span><span class="mi">4</span><span class="o">*</span><span class="mf">2.5</span><span class="p">));</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// create the stroke only label</span>
+</span><span class='line'>    <span class="n">ccFontDefinition</span> <span class="n">strokeTextDef</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">strokeTextDef</span><span class="p">.</span><span class="n">m_fontSize</span> <span class="o">=</span> <span class="mi">20</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">strokeTextDef</span><span class="p">.</span><span class="n">m_fontName</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Marker Felt&quot;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">strokeTextDef</span><span class="p">.</span><span class="n">m_stroke</span><span class="p">.</span><span class="n">m_strokeEnabled</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">strokeTextDef</span><span class="p">.</span><span class="n">m_stroke</span><span class="p">.</span><span class="n">m_strokeColor</span>   <span class="o">=</span> <span class="n">strokeColor</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">strokeTextDef</span><span class="p">.</span><span class="n">m_stroke</span><span class="p">.</span><span class="n">m_strokeSize</span>    <span class="o">=</span> <span class="mf">1.5</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">strokeTextDef</span><span class="p">.</span><span class="n">m_fontFillColor</span>   <span class="o">=</span> <span class="n">tintColorYellow</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// stroke only label</span>
+</span><span class='line'>    <span class="n">CCLabelTTF</span><span class="o">*</span> <span class="n">fontStroke</span> <span class="o">=</span> <span class="n">CCLabelTTF</span><span class="o">::</span><span class="n">createWithFontDefinition</span><span class="p">(</span><span class="s">&quot;Stroke Only Red Text&quot;</span><span class="p">,</span> <span class="n">strokeTextDef</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// add label to the scene</span>
+</span><span class='line'>    <span class="k">this</span><span class="o">-&gt;</span><span class="n">addChild</span><span class="p">(</span><span class="n">fontStroke</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">fontStroke</span><span class="o">-&gt;</span><span class="n">setPosition</span><span class="p">(</span><span class="n">ccp</span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">width</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="n">s</span><span class="p">.</span><span class="n">height</span><span class="o">/</span><span class="mi">4</span><span class="o">*</span><span class="mf">1.8</span><span class="p">));</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// create the label stroke and shadow</span>
+</span><span class='line'>    <span class="n">ccFontDefinition</span> <span class="n">strokeShaodwTextDef</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">strokeShaodwTextDef</span><span class="p">.</span><span class="n">m_fontSize</span> <span class="o">=</span> <span class="mi">20</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">strokeShaodwTextDef</span><span class="p">.</span><span class="n">m_fontName</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Marker Felt&quot;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">strokeShaodwTextDef</span><span class="p">.</span><span class="n">m_stroke</span><span class="p">.</span><span class="n">m_strokeEnabled</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">strokeShaodwTextDef</span><span class="p">.</span><span class="n">m_stroke</span><span class="p">.</span><span class="n">m_strokeColor</span>   <span class="o">=</span> <span class="n">strokeShadowColor</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">strokeShaodwTextDef</span><span class="p">.</span><span class="n">m_stroke</span><span class="p">.</span><span class="n">m_strokeSize</span>    <span class="o">=</span> <span class="mf">1.5</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">strokeShaodwTextDef</span><span class="p">.</span><span class="n">m_shadow</span><span class="p">.</span><span class="n">m_shadowEnabled</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">strokeShaodwTextDef</span><span class="p">.</span><span class="n">m_shadow</span><span class="p">.</span><span class="n">m_shadowOffset</span>  <span class="o">=</span> <span class="n">shadowOffset</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">strokeShaodwTextDef</span><span class="p">.</span><span class="n">m_shadow</span><span class="p">.</span><span class="n">m_shadowOpacity</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">strokeShaodwTextDef</span><span class="p">.</span><span class="n">m_shadow</span><span class="p">.</span><span class="n">m_shadowBlur</span>    <span class="o">=</span> <span class="mf">1.0</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">strokeShaodwTextDef</span><span class="p">.</span><span class="n">m_fontFillColor</span>   <span class="o">=</span> <span class="n">tintColorBlue</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// shadow + stroke label</span>
+</span><span class='line'>    <span class="n">CCLabelTTF</span><span class="o">*</span> <span class="n">fontStrokeAndShadow</span> <span class="o">=</span> <span class="n">CCLabelTTF</span><span class="o">::</span><span class="n">createWithFontDefinition</span><span class="p">(</span><span class="s">&quot;Stroke &amp; Shadow Blue Text&quot;</span><span class="p">,</span> <span class="n">strokeShaodwTextDef</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// add label to the scene</span>
+</span><span class='line'>    <span class="k">this</span><span class="o">-&gt;</span><span class="n">addChild</span><span class="p">(</span><span class="n">fontStrokeAndShadow</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">fontStrokeAndShadow</span><span class="o">-&gt;</span><span class="n">setPosition</span><span class="p">(</span><span class="n">ccp</span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">width</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="n">s</span><span class="p">.</span><span class="n">height</span><span class="o">/</span><span class="mi">4</span><span class="o">*</span><span class="mf">1.1</span><span class="p">));</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
 ]]></content>
   </entry>
   
