@@ -486,7 +486,9 @@ static bool _initWithString(const char * pText, cocos2d::CCImage::ETextAlign eAl
 
 修改完上述两个文件，Cococs2d-x 2.x版本就能完美支持外描边啦。
 
-2015/6/2更新1：更新CCImage.mm代码，修正字体阴影的错误。
+-----------------------------------------------------------
+2015/6/2更新1：更新CCImage.mm代码，修正字体阴影的错误。(在安卓平台上阴影的支持可能有问题，暂未测试。)
+
 2015/6/2更新2：前几天Byron Song同学反应描边有问题，经过测试，按下面写法，能够得到正确的描边和阴影效果的。
 
 {% codeblock lang:cpp %}          
