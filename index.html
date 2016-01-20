@@ -9,19 +9,8 @@
   <meta name="author" content="Wenbo Qiu">
 
   
-  <meta name="description" content="这几天在公司做一个2D RPG游戏的demo，涉及到寻路的问题，于是自己写了A*寻路算法，分享一下。 地图初始化时，只需要告诉PathFind这个类地图的宽度跟高度，并且初始化障碍点即可。 1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-PathFind::InitMap(_tileMap &hellip;">
+  <meta name="description" content="最近尝试在项目中使用Jenkins，即持续集成。不过在Shell脚本中使用TexturePacker的打包命令时，却无法成功，不管是Mac还是Windows，都会出现同样的提示。 1
+You must agree to the license agreement before using &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -95,6 +84,63 @@ PathFind::InitMap(_tileMap &hellip;">
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/12/26/fix-texturepacker-in-jenkins/">解决Texturepacker命令行无法在Jenkins下使用的问题</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-12-26T21:11:19+08:00" pubdate data-updated="true"></time>
+        
+           | <a href="/blog/2015/12/26/fix-texturepacker-in-jenkins/#disqus_thread"
+             data-disqus-identifier="http://wenboqiu.github.io/blog/2015/12/26/fix-texturepacker-in-jenkins/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>最近尝试在项目中使用Jenkins，即持续集成。不过在Shell脚本中使用TexturePacker的打包命令时，却无法成功，不管是Mac还是Windows，都会出现同样的提示。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="n">You</span> <span class="n">must</span> <span class="n">agree</span> <span class="n">to</span> <span class="n">the</span> <span class="n">license</span> <span class="n">agreement</span> <span class="n">before</span> <span class="n">using</span> <span class="n">TexturePacker</span><span class="p">.</span> <span class="n">Please</span> <span class="n">run</span> <span class="n">the</span> <span class="n">graphical</span> <span class="n">user</span> <span class="n">interface</span> <span class="n">and</span> <span class="n">accept</span> <span class="n">the</span> <span class="n">license</span> <span class="n">terms</span><span class="p">.</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>奇怪，明明这个agreement，之前在使用TexturePacker GUI时，都已经同意过了的嘛。倒腾了一段时间，才发现，无论是Windows，还是Mac，运行Jenkins的都不是当前的用户。Mac系统下，可以在/Users/Shared中找到一个名为Jenkins的文件夹，Jenkins运行是就用的是这个同名的用户。Windows系统下，可以在《服务》中找到名为Jenkins的服务，右键该服务，选择属性，选择登录这个标签，可以看到运行Jenkins服务的实际上是本地系统账户，而非当前帐号。正因为之前没有在实际运行Jenkins服务的账户下同意过TexturePacker的Agreement，才导致命令行命令无法执行。知道原因后，解决方案就相对简单啦。</p>
+
+<p>Mac: 在terminal中依次使用如下两个命令后，就能看到license agreement弹出来，点击I agree即可。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="mf">1.</span> <span class="n">sudo</span> <span class="n">su</span> <span class="n">jenkins</span>
+</span><span class='line'><span class="mf">2.</span> <span class="n">TexturePacker</span> <span class="err">—</span><span class="n">gui</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Windows:　如果之前有查看过Jenkins服务的属性，就会发现登录标签页中，不光可以用本地系统账户登录服务，也可以用自己的账户登录Jenkins服务。因此登录自己的账户，同意agreement，TexturePacker的命令行就能用啦。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/06/06/astar-path-finding/">A*寻路</a></h1>
     
     
@@ -111,7 +157,7 @@ PathFind::InitMap(_tileMap &hellip;">
   
 
 
-<time datetime="2015-06-06T07:05:11+08:00" pubdate data-updated="true">Jun 6<span>th</span>, 2015</time>
+<time datetime="2015-06-06T07:05:11+08:00" pubdate data-updated="true"></time>
         
            | <a href="/blog/2015/06/06/astar-path-finding/#disqus_thread"
              data-disqus-identifier="http://wenboqiu.github.io/blog/2015/06/06/astar-path-finding/">Comments</a>
@@ -206,7 +252,7 @@ PathFind::InitMap(_tileMap &hellip;">
   
 
 
-<time datetime="2015-01-09T18:56:01+08:00" pubdate data-updated="true">Jan 9<span>th</span>, 2015</time>
+<time datetime="2015-01-09T18:56:01+08:00" pubdate data-updated="true"></time>
         
            | <a href="/blog/2015/01/09/follow-your-heart/#disqus_thread"
              data-disqus-identifier="http://wenboqiu.github.io/blog/2015/01/09/follow-your-heart/">Comments</a>
@@ -255,7 +301,7 @@ PathFind::InitMap(_tileMap &hellip;">
   
 
 
-<time datetime="2014-12-31T15:09:32+08:00" pubdate data-updated="true">Dec 31<span>st</span>, 2014</time>
+<time datetime="2014-12-31T15:09:32+08:00" pubdate data-updated="true"></time>
         
            | <a href="/blog/2014/12/31/talk-about-in-game-updating/#disqus_thread"
              data-disqus-identifier="http://wenboqiu.github.io/blog/2014/12/31/talk-about-in-game-updating/">Comments</a>
@@ -303,7 +349,7 @@ PathFind::InitMap(_tileMap &hellip;">
   
 
 
-<time datetime="2014-12-01T17:12:58+08:00" pubdate data-updated="true">Dec 1<span>st</span>, 2014</time>
+<time datetime="2014-12-01T17:12:58+08:00" pubdate data-updated="true"></time>
         
            | <a href="/blog/2014/12/01/support-label-outline-in-cocos2dx-2-dot-x/#disqus_thread"
              data-disqus-identifier="http://wenboqiu.github.io/blog/2014/12/01/support-label-outline-in-cocos2dx-2-dot-x/">Comments</a>
@@ -356,7 +402,7 @@ PathFind::InitMap(_tileMap &hellip;">
   
 
 
-<time datetime="2014-09-22T16:15:34+08:00" pubdate data-updated="true">Sep 22<span>nd</span>, 2014</time>
+<time datetime="2014-09-22T16:15:34+08:00" pubdate data-updated="true"></time>
         
            | <a href="/blog/2014/09/22/how-to-bind-lua-function/#disqus_thread"
              data-disqus-identifier="http://wenboqiu.github.io/blog/2014/09/22/how-to-bind-lua-function/">Comments</a>
@@ -399,8 +445,6 @@ PathFind::InitMap(_tileMap &hellip;">
 </span></code></pre></td></tr></table></div></figure>
 
 
-
-
 </div>
   
   
@@ -433,7 +477,7 @@ PathFind::InitMap(_tileMap &hellip;">
   
 
 
-<time datetime="2014-09-19T10:45:15+08:00" pubdate data-updated="true">Sep 19<span>th</span>, 2014</time>
+<time datetime="2014-09-19T10:45:15+08:00" pubdate data-updated="true"></time>
         
            | <a href="/blog/2014/09/19/how-to-use-tolua-dot-cast/#disqus_thread"
              data-disqus-identifier="http://wenboqiu.github.io/blog/2014/09/19/how-to-use-tolua-dot-cast/">Comments</a>
@@ -482,7 +526,7 @@ tolua.cast (var, type)：Changes the metatable of var in order to make it of typ
   
 
 
-<time datetime="2014-09-12T11:31:18+08:00" pubdate data-updated="true">Sep 12<span>th</span>, 2014</time>
+<time datetime="2014-09-12T11:31:18+08:00" pubdate data-updated="true"></time>
         
            | <a href="/blog/2014/09/12/how-tolua-bind-multiple-type-formal-parameter/#disqus_thread"
              data-disqus-identifier="http://wenboqiu.github.io/blog/2014/09/12/how-tolua-bind-multiple-type-formal-parameter/">Comments</a>
@@ -530,7 +574,7 @@ tolua.cast (var, type)：Changes the metatable of var in order to make it of typ
   
 
 
-<time datetime="2014-09-11T16:40:20+08:00" pubdate data-updated="true">Sep 11<span>th</span>, 2014</time>
+<time datetime="2014-09-11T16:40:20+08:00" pubdate data-updated="true"></time>
         
            | <a href="/blog/2014/09/11/pass-lua-value-to-c-plus-plus-fuction/#disqus_thread"
              data-disqus-identifier="http://wenboqiu.github.io/blog/2014/09/11/pass-lua-value-to-c-plus-plus-fuction/">Comments</a>
@@ -578,7 +622,7 @@ tolua.cast (var, type)：Changes the metatable of var in order to make it of typ
   
 
 
-<time datetime="2014-08-26T10:39:08+08:00" pubdate data-updated="true">Aug 26<span>th</span>, 2014</time>
+<time datetime="2014-08-26T10:39:08+08:00" pubdate data-updated="true"></time>
         
            | <a href="/blog/2014/08/26/errorc2065/#disqus_thread"
              data-disqus-identifier="http://wenboqiu.github.io/blog/2014/08/26/errorc2065/">Comments</a>
@@ -598,59 +642,9 @@ tolua.cast (var, type)：Changes the metatable of var in order to make it of typ
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/08/21/learn-lua-object/">Lua 面向对象实现(Part I)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-08-21T19:51:24+08:00" pubdate data-updated="true">Aug 21<span>st</span>, 2014</time>
-        
-           | <a href="/blog/2014/08/21/learn-lua-object/#disqus_thread"
-             data-disqus-identifier="http://wenboqiu.github.io/blog/2014/08/21/learn-lua-object/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>接触Lua已经有一年的，但是一直对Lua的面向对象实现一知半解，全赖wp同学的工作，我们可以不用管具体的细节，把项目顺利完成。不过有东西一直一知半解，总觉得难受，于是趁这几天有空，把这块知识点好好梳理了一番。</p>
-
-<p>一、Lua Table 模拟面向对象实现</p>
-
-<p>Lua本身并不是面向对象的语言，没有面向对象语言的类、继承、多态等特性，但是凭借其自身强大的table特性，类、继承、多态等特性能够在Lua中被模拟出来。</p>
-
-<p>Table是Lua八种基础类型中的一种，也是最重要的特性之一，其他语言中的数组，字典，在Lua中都可以通过Table来实现。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2014/08/21/learn-lua-object/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
-      <a class="prev" href="/blog/page/2/">&larr; Older</a>
+      <a class="prev" href="2">&larr; Older</a>
     
     <a href="/blog/archives">Blog Archives</a>
     
@@ -661,6 +655,10 @@ tolua.cast (var, type)：Changes the metatable of var in order to make it of typ
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/12/26/fix-texturepacker-in-jenkins/">解决Texturepacker命令行无法在Jenkins下使用的问题</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2015/06/06/astar-path-finding/">A*寻路</a>
@@ -678,10 +676,6 @@ tolua.cast (var, type)：Changes the metatable of var in order to make it of typ
         <a href="/blog/2014/12/01/support-label-outline-in-cocos2dx-2-dot-x/">让Cocos2d-x 2.x版本CCLabelTTF支持外描边(非多个方向重绘来实现描边)</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2014/09/22/how-to-bind-lua-function/">如何绑定LUA_FUNCTION</a>
-      </li>
-    
   </ul>
 </section>
 
@@ -695,7 +689,7 @@ tolua.cast (var, type)：Changes the metatable of var in order to make it of typ
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2015 - Wenbo Qiu -
+  Copyright &copy; 2016 - Wenbo Qiu -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 

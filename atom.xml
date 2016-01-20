@@ -4,7 +4,7 @@
   <title><![CDATA[Wenbo's Blog]]></title>
   <link href="http://wenboqiu.github.io/atom.xml" rel="self"/>
   <link href="http://wenboqiu.github.io/"/>
-  <updated>2015-06-06T08:51:57+08:00</updated>
+  <updated>2016-01-20T23:29:31+08:00</updated>
   <id>http://wenboqiu.github.io/</id>
   <author>
     <name><![CDATA[Wenbo Qiu]]></name>
@@ -12,6 +12,33 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[解决Texturepacker命令行无法在Jenkins下使用的问题]]></title>
+    <link href="http://wenboqiu.github.io/blog/2015/12/26/fix-texturepacker-in-jenkins/"/>
+    <updated>2015-12-26T21:11:19+08:00</updated>
+    <id>http://wenboqiu.github.io/blog/2015/12/26/fix-texturepacker-in-jenkins</id>
+    <content type="html"><![CDATA[<p>最近尝试在项目中使用Jenkins，即持续集成。不过在Shell脚本中使用TexturePacker的打包命令时，却无法成功，不管是Mac还是Windows，都会出现同样的提示。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="n">You</span> <span class="n">must</span> <span class="n">agree</span> <span class="n">to</span> <span class="n">the</span> <span class="n">license</span> <span class="n">agreement</span> <span class="n">before</span> <span class="n">using</span> <span class="n">TexturePacker</span><span class="p">.</span> <span class="n">Please</span> <span class="n">run</span> <span class="n">the</span> <span class="n">graphical</span> <span class="n">user</span> <span class="n">interface</span> <span class="n">and</span> <span class="n">accept</span> <span class="n">the</span> <span class="n">license</span> <span class="n">terms</span><span class="p">.</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>奇怪，明明这个agreement，之前在使用TexturePacker GUI时，都已经同意过了的嘛。倒腾了一段时间，才发现，无论是Windows，还是Mac，运行Jenkins的都不是当前的用户。Mac系统下，可以在/Users/Shared中找到一个名为Jenkins的文件夹，Jenkins运行是就用的是这个同名的用户。Windows系统下，可以在《服务》中找到名为Jenkins的服务，右键该服务，选择属性，选择登录这个标签，可以看到运行Jenkins服务的实际上是本地系统账户，而非当前帐号。正因为之前没有在实际运行Jenkins服务的账户下同意过TexturePacker的Agreement，才导致命令行命令无法执行。知道原因后，解决方案就相对简单啦。</p>
+
+<p>Mac: 在terminal中依次使用如下两个命令后，就能看到license agreement弹出来，点击I agree即可。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="mf">1.</span> <span class="n">sudo</span> <span class="n">su</span> <span class="n">jenkins</span>
+</span><span class='line'><span class="mf">2.</span> <span class="n">TexturePacker</span> <span class="err">—</span><span class="n">gui</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Windows:　如果之前有查看过Jenkins服务的属性，就会发现登录标签页中，不光可以用本地系统账户登录服务，也可以用自己的账户登录Jenkins服务。因此登录自己的账户，同意agreement，TexturePacker的命令行就能用啦。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[A*寻路]]></title>
@@ -2040,8 +2067,6 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-
-
 <!--more-->
 
 
@@ -2185,8 +2210,6 @@ tolua.cast (var, type)：Changes the metatable of var in order to make it of typ
 <!--more-->
 
 
-
-
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -2273,8 +2296,6 @@ tolua.cast (var, type)：Changes the metatable of var in order to make it of typ
 <p>举例来说，bool CCScale9Sprite::initWithFile(const char* file, CCRect rect) 这个方法形参既有指针，也有按值传递，通过tolua++绑定后，lua实际调用的函数会是怎么样的呢？</p>
 
 <!--more-->
-
-
 
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
