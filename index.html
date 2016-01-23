@@ -289,95 +289,6 @@ You must agree to the license agreement before using &hellip;">
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2014/08/26/errorc2065/">遇见error C2065:未声明的标识符错误</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-08-26T10:39:08+08:00" pubdate data-updated="true"></time>
-        
-           | <a href="/blog/2014/08/26/errorc2065/#disqus_thread"
-             data-disqus-identifier="http://wenboqiu.github.io/blog/2014/08/26/errorc2065/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>昨天在编译Lua绑定代码的时候，出现了这个编译错误，一般来说，只要引入正确的头文件，就能避免这个错误。奇怪的是，头文件明明已经正确引入了，但是编译去无法通过，vs始终提示我的自定义类为未定义标识符，百思不得其解。折腾了两个小时，才发现原来这个自定义类使用了名称空间，只要在头文件中使用using 关键字将名称空间引入即可。</p>
-
-<p>解决完这个问题，觉得悔恨不已，竟然因为这样的小疏忽浪费了这么多的时间。原因有二，一来自己C++功底尚浅，出了问题，始终为想到因为名称空间导致了，当时还在猜测是不是因为什么特殊字符之类的。二、未好好利用搜索引擎，当时在网上搜索到了导致这个错误的几个原因，就是没提到名称空间，自己也没再去搜索更多的答案，反而今天早上一搜索就搜到了一篇博文提到名称空间也会导致这个问题，无语，只能说明昨天没用好搜索引擎。继续努力吧。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/08/21/my-summer/">2014 我的夏天</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-08-21T13:38:07+08:00" pubdate data-updated="true"></time>
-        
-           | <a href="/blog/2014/08/21/my-summer/#disqus_thread"
-             data-disqus-identifier="http://wenboqiu.github.io/blog/2014/08/21/my-summer/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>昨天写了篇看球有感，post到博客之上，这才发觉已经有三个多月没有更新过文章了，虽然总共也没写过几篇，惭愧。。</p>
-
-<p>这三个多月，我倒是做了几件事情。</p>
-
-<p>一、准备面试：准备面试的过程对自己能力的提高还是大有益处的，既巩固基础知识，也会接触到最新的一些技术，可以完善自己的知识结构，且提供一个重新审视自己的机会。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2014/08/21/my-summer/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
       <h1 class="entry-title"><a href="/blog/2014/02/21/du-shu-bi-ji-zhi-dai-ma-fu-cha/">读书笔记之代码复查</a></h1>
     
     
@@ -527,11 +438,11 @@ You must agree to the license agreement before using &hellip;">
       </li>
     
       <li class="post">
-        <a href="/blog/2014/08/26/errorc2065/">遇见error C2065:未声明的标识符错误</a>
+        <a href="/blog/2014/02/21/du-shu-bi-ji-zhi-dai-ma-fu-cha/">读书笔记之代码复查</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2014/08/21/my-summer/">2014 我的夏天</a>
+        <a href="/blog/2014/02/08/2014xin-nian-zhan-wang/">2014新年展望</a>
       </li>
     
   </ul>
