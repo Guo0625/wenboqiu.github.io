@@ -4,7 +4,7 @@
   <title><![CDATA[编程小站]]></title>
   <link href="http://wenboqiu.github.io/atom.xml" rel="self"/>
   <link href="http://wenboqiu.github.io/"/>
-  <updated>2016-01-24T21:14:05+08:00</updated>
+  <updated>2016-01-24T21:21:21+08:00</updated>
   <id>http://wenboqiu.github.io/</id>
   <author>
     <name><![CDATA[Wenbo Qiu]]></name>
@@ -12,6 +12,15 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Test Markdown]]></title>
+    <link href="http://wenboqiu.github.io/blog/2016/01/24/test-markdown/"/>
+    <updated>2016-01-24T21:16:47+08:00</updated>
+    <id>http://wenboqiu.github.io/blog/2016/01/24/test-markdown</id>
+    <content type="html"><![CDATA[<p>File /Users/wenboqiu/Documents/octopress/source/mds/mou.markdown could not be found</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[解决Texturepacker命令行无法在Jenkins下使用的问题]]></title>
