@@ -5,12 +5,13 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>解决Texturepacker命令行无法在Jenkins下使用的问题 - 编程小站</title>
+  <title>解决Jenkins中Git提交记录乱码的问题 - 编程小站</title>
   <meta name="author" content="Wenbo Qiu">
 
   
-  <meta name="description" content="最近尝试在项目中使用Jenkins，即持续集成。不过在Shell脚本中使用TexturePacker的打包命令时，却无法成功，不管是Mac还是Windows，都会出现同样的提示。 1
-You must agree to the license agreement before using &hellip;">
+  <meta name="description" content="在为项目搭建持续集成环境时，碰到了git记录乱码的问题。 方法一：
+网上有个解决方案，是修改jenkins.xml文件，不过这个方法并没有解决git记录乱码的问题（方法如下）。
+x:\Jenkins\jenkins.xml 新增蓝色粗体标记参数(-Dfile.encoding=utf-8)， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +20,7 @@ You must agree to the license agreement before using &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://wenboqiu.github.io/blog/2015/12/26/fix-texturepacker-in-jenkins">
+  <link rel="canonical" href="http://wenboqiu.github.io/blog/2016/03/13/fix-messy-code-of-git-commit-in-jenkins">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="编程小站" type="application/atom+xml">
@@ -81,7 +82,7 @@ You must agree to the license agreement before using &hellip;">
   
   <header>
     
-      <h1 class="entry-title">解决Texturepacker命令行无法在Jenkins下使用的问题</h1>
+      <h1 class="entry-title">解决Jenkins中Git提交记录乱码的问题</h1>
     
     
       <p class="meta">
@@ -97,7 +98,7 @@ You must agree to the license agreement before using &hellip;">
   
 
 
-<time datetime="2015-12-26T21:11:19+08:00" pubdate data-updated="true"></time>
+<time datetime="2016-03-13T10:08:45+08:00" pubdate data-updated="true"></time>
         
            | <a href="#disqus_thread"
              data-disqus-identifier="http://wenboqiu.github.io">Comments</a>
@@ -107,25 +108,24 @@ You must agree to the license agreement before using &hellip;">
   </header>
 
 
-<div class="entry-content"><p>最近尝试在项目中使用Jenkins，即持续集成。不过在Shell脚本中使用TexturePacker的打包命令时，却无法成功，不管是Mac还是Windows，都会出现同样的提示。</p>
+<div class="entry-content"><p>在为项目搭建持续集成环境时，碰到了git记录乱码的问题。</p>
+
+<p>方法一：
+网上有个解决方案，是修改jenkins.xml文件，不过这个方法并没有解决git记录乱码的问题（方法如下）。
+x:\Jenkins\jenkins.xml 新增蓝色粗体标记参数(-Dfile.encoding=utf-8)，然后重启Jenkins服务，完毕！</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="n">You</span> <span class="n">must</span> <span class="n">agree</span> <span class="n">to</span> <span class="n">the</span> <span class="n">license</span> <span class="n">agreement</span> <span class="n">before</span> <span class="n">using</span> <span class="n">TexturePacker</span><span class="p">.</span> <span class="n">Please</span> <span class="n">run</span> <span class="n">the</span> <span class="n">graphical</span> <span class="n">user</span> <span class="n">interface</span> <span class="n">and</span> <span class="n">accept</span> <span class="n">the</span> <span class="n">license</span> <span class="n">terms</span><span class="p">.</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="o">&lt;</span><span class="n">arguments</span><span class="o">&gt;-</span><span class="n">Xrs</span> <span class="o">-</span><span class="n">Xmx256m</span> <span class="o">-</span><span class="n">Dfile</span><span class="p">.</span><span class="n">encoding</span><span class="o">=</span><span class="n">utf</span><span class="o">-</span><span class="mi">8</span> <span class="o">-</span><span class="n">Dhudson</span><span class="p">.</span><span class="n">lifecycle</span><span class="o">=</span><span class="n">hudson</span><span class="p">.</span><span class="n">lifecycle</span><span class="p">.</span><span class="n">WindowsServiceLifecycle</span> <span class="o">-</span><span class="n">jar</span> <span class="err">“</span><span class="o">%</span><span class="n">BASE</span><span class="o">%</span><span class="err">\</span><span class="n">jenkins</span><span class="p">.</span><span class="n">war</span><span class="err">”</span> <span class="err">–</span><span class="n">httpPort</span><span class="o">=</span><span class="mi">8080</span><span class="o">&lt;/</span><span class="n">arguments</span><span class="o">&gt;</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>奇怪，明明这个agreement，之前在使用TexturePacker GUI时，都已经同意过了的嘛。倒腾了一段时间，才发现，无论是Windows，还是Mac，运行Jenkins的都不是当前的用户。Mac系统下，可以在/Users/Shared中找到一个名为Jenkins的文件夹，Jenkins运行是就用的是这个同名的用户。Windows系统下，可以在《服务》中找到名为Jenkins的服务，右键该服务，选择属性，选择登录这个标签，可以看到运行Jenkins服务的实际上是本地系统账户，而非当前帐号。正因为之前没有在实际运行Jenkins服务的账户下同意过TexturePacker的Agreement，才导致命令行命令无法执行。知道原因后，解决方案就相对简单啦。</p>
-
-<p>Mac: 在terminal中依次使用如下两个命令后，就能看到license agreement弹出来，点击I agree即可。</p>
+<p>方法二：
+后来尝试修改本地git的设置，修改logOutputEncoding为gbk，顺利解决jenkins中git记录乱码的问题。</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="mf">1.</span> <span class="n">sudo</span> <span class="n">su</span> <span class="n">jenkins</span>
-</span><span class='line'><span class="mf">2.</span> <span class="n">TexturePacker</span> <span class="err">—</span><span class="n">gui</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="err">$</span><span class="n">git</span> <span class="n">config</span> <span class="o">--</span><span class="n">global</span> <span class="n">i18n</span><span class="p">.</span><span class="n">logOutputEncoding</span> <span class="n">gbk</span>
 </span></code></pre></td></tr></table></div></figure>
 
-
-<p>Windows:　如果之前有查看过Jenkins服务的属性，就会发现登录标签页中，不光可以用本地系统账户登录服务，也可以用自己的账户登录Jenkins服务。因此登录自己的账户，同意agreement，TexturePacker的命令行就能用啦。</p>
 </div>
 
 
@@ -148,7 +148,7 @@ You must agree to the license agreement before using &hellip;">
   
 
 
-<time datetime="2015-12-26T21:11:19+08:00" pubdate data-updated="true"></time>
+<time datetime="2016-03-13T10:08:45+08:00" pubdate data-updated="true"></time>
       
 
 
@@ -156,7 +156,7 @@ You must agree to the license agreement before using &hellip;">
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://wenboqiu.github.io/blog/2015/12/26/fix-texturepacker-in-jenkins/" data-via="" data-counturl="http://wenboqiu.github.io/blog/2015/12/26/fix-texturepacker-in-jenkins/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://wenboqiu.github.io/blog/2016/03/13/fix-messy-code-of-git-commit-in-jenkins/" data-via="" data-counturl="http://wenboqiu.github.io/blog/2016/03/13/fix-messy-code-of-git-commit-in-jenkins/" >Tweet</a>
   
   
   
@@ -165,10 +165,8 @@ You must agree to the license agreement before using &hellip;">
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2015/06/06/astar-path-finding/" title="Previous Post: A*寻路">&laquo; A*寻路</a>
+        <a class="basic-alignment left" href="/blog/2015/12/26/fix-texturepacker-in-jenkins/" title="Previous Post: 解决Texturepacker命令行无法在Jenkins下使用的问题">&laquo; 解决Texturepacker命令行无法在Jenkins下使用的问题</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2016/03/13/fix-messy-code-of-git-commit-in-jenkins/" title="Next Post: 解决Jenkins中Git提交记录乱码的问题">解决Jenkins中Git提交记录乱码的问题 &raquo;</a>
       
     </p>
   </footer>
@@ -234,8 +232,8 @@ You must agree to the license agreement before using &hellip;">
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://wenboqiu.github.io/blog/2015/12/26/fix-texturepacker-in-jenkins/';
-        var disqus_url = 'http://wenboqiu.github.io/blog/2015/12/26/fix-texturepacker-in-jenkins/';
+        var disqus_identifier = 'http://wenboqiu.github.io/blog/2016/03/13/fix-messy-code-of-git-commit-in-jenkins/';
+        var disqus_url = 'http://wenboqiu.github.io/blog/2016/03/13/fix-messy-code-of-git-commit-in-jenkins/';
         var disqus_script = 'embed.js';
       
     (function () {

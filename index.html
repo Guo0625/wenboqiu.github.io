@@ -9,8 +9,9 @@
   <meta name="author" content="Wenbo Qiu">
 
   
-  <meta name="description" content="最近尝试在项目中使用Jenkins，即持续集成。不过在Shell脚本中使用TexturePacker的打包命令时，却无法成功，不管是Mac还是Windows，都会出现同样的提示。 1
-You must agree to the license agreement before using &hellip;">
+  <meta name="description" content="在为项目搭建持续集成环境时，碰到了git记录乱码的问题。 方法一：
+网上有个解决方案，是修改jenkins.xml文件，不过这个方法并没有解决git记录乱码的问题（方法如下）。
+x:\Jenkins\jenkins.xml 新增蓝色粗体标记参数(-Dfile.encoding=utf-8)， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -78,6 +79,62 @@ You must agree to the license agreement before using &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/03/13/fix-messy-code-of-git-commit-in-jenkins/">解决Jenkins中Git提交记录乱码的问题</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-03-13T10:08:45+08:00" pubdate data-updated="true"></time>
+        
+           | <a href="/blog/2016/03/13/fix-messy-code-of-git-commit-in-jenkins/#disqus_thread"
+             data-disqus-identifier="http://wenboqiu.github.io/blog/2016/03/13/fix-messy-code-of-git-commit-in-jenkins/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>在为项目搭建持续集成环境时，碰到了git记录乱码的问题。</p>
+
+<p>方法一：
+网上有个解决方案，是修改jenkins.xml文件，不过这个方法并没有解决git记录乱码的问题（方法如下）。
+x:\Jenkins\jenkins.xml 新增蓝色粗体标记参数(-Dfile.encoding=utf-8)，然后重启Jenkins服务，完毕！</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="o">&lt;</span><span class="n">arguments</span><span class="o">&gt;-</span><span class="n">Xrs</span> <span class="o">-</span><span class="n">Xmx256m</span> <span class="o">-</span><span class="n">Dfile</span><span class="p">.</span><span class="n">encoding</span><span class="o">=</span><span class="n">utf</span><span class="o">-</span><span class="mi">8</span> <span class="o">-</span><span class="n">Dhudson</span><span class="p">.</span><span class="n">lifecycle</span><span class="o">=</span><span class="n">hudson</span><span class="p">.</span><span class="n">lifecycle</span><span class="p">.</span><span class="n">WindowsServiceLifecycle</span> <span class="o">-</span><span class="n">jar</span> <span class="err">“</span><span class="o">%</span><span class="n">BASE</span><span class="o">%</span><span class="err">\</span><span class="n">jenkins</span><span class="p">.</span><span class="n">war</span><span class="err">”</span> <span class="err">–</span><span class="n">httpPort</span><span class="o">=</span><span class="mi">8080</span><span class="o">&lt;/</span><span class="n">arguments</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>方法二：
+后来尝试修改本地git的设置，修改logOutputEncoding为gbk，顺利解决jenkins中git记录乱码的问题。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="err">$</span><span class="n">git</span> <span class="n">config</span> <span class="o">--</span><span class="n">global</span> <span class="n">i18n</span><span class="p">.</span><span class="n">logOutputEncoding</span> <span class="n">gbk</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -382,6 +439,10 @@ You must agree to the license agreement before using &hellip;">
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2016/03/13/fix-messy-code-of-git-commit-in-jenkins/">解决Jenkins中Git提交记录乱码的问题</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/12/26/fix-texturepacker-in-jenkins/">解决Texturepacker命令行无法在Jenkins下使用的问题</a>
       </li>
     
@@ -395,10 +456,6 @@ You must agree to the license agreement before using &hellip;">
     
       <li class="post">
         <a href="/blog/2014/02/21/du-shu-bi-ji-zhi-dai-ma-fu-cha/">读书笔记之代码复查</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/01/30/xin-de-kai-shi/">新的开始</a>
       </li>
     
   </ul>
