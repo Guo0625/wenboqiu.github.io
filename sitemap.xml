@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://wenboqiu.github.io/blog/2016/08/22/think-on-management/</loc>
+    <lastmod>2016-08-22T08:30:50+08:00</lastmod>
+  </url>
+  <url>
     <loc>http://wenboqiu.github.io/blog/2016/03/13/fix-messy-code-of-git-commit-in-jenkins/</loc>
     <lastmod>2016-03-13T10:08:45+08:00</lastmod>
   </url>
