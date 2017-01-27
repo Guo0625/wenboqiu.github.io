@@ -9,7 +9,7 @@
   <meta name="author" content="Wenbo Qiu">
 
   
-  <meta name="description" content="最近正在看《大教堂与集市》这本书，书中所提倡的集市模式令我深有感触。 集市模式的概念有很多方面，其中一点就是强调“齐心协力”，一般一个开源项目，就像一个自由市场，大家依靠兴趣集结在一起，这个时候“命令模式”是行不通的，系统中每个个体都追求自身效用的最大化，在其共生的过程中， &hellip;">
+  <meta name="description" content="去年一月，我们的千年手游正式立项开工，到现在刚好一年。这一年经历许多，感悟良多，总结一下，与诸位分享。 这一年杂七杂八做了挺多事情的，值得说一说的倒没多少。 第一件值得分享的是，发现了一个arm mali texture compression tool(tct) mac版的bug， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +77,54 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2017/01/27/my-2016/">我的这一年</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2017-01-27T09:56:33+08:00" pubdate data-updated="true"></time>
+        
+           | <a href="/blog/2017/01/27/my-2016/#disqus_thread"
+             data-disqus-identifier="http://wenboqiu.github.io/blog/2017/01/27/my-2016/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>去年一月，我们的千年手游正式立项开工，到现在刚好一年。这一年经历许多，感悟良多，总结一下，与诸位分享。</p>
+
+<p>这一年杂七杂八做了挺多事情的，值得说一说的倒没多少。</p>
+
+<p>第一件值得分享的是，发现了一个arm mali texture compression tool(tct) mac版的bug，将一张png图片通过tct压缩成一张上半部分带rgb通道，下半部分带alpha通道的图片，压缩完成后，alpha值相对原始的alpha值，是偏小的。经过几番与arm开发的邮件沟通，发现是因为tct使用了较老版本的ImageMagick，手动替换最新版本，应该能够解决该问题。查看arm官网，这个问题应该依然没有修复，最新的tct版本还是能够重现bug的4.3。（注：tct 4.3 win版本并没有这个bug）</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2017/01/27/my-2016/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -483,6 +531,10 @@ x:\Jenkins\jenkins.xml 新增蓝色粗体标记参数(-Dfile.encoding=utf-8)，�
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2017/01/27/my-2016/">我的这一年</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2016/08/22/think-on-management/">一点项目管理感悟</a>
       </li>
     
@@ -498,10 +550,6 @@ x:\Jenkins\jenkins.xml 新增蓝色粗体标记参数(-Dfile.encoding=utf-8)，�
         <a href="/blog/2015/06/06/astar-path-finding/">A*寻路</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2014/12/01/support-label-outline-in-cocos2dx-2-dot-x/">让Cocos2d-x 2.x版本CCLabelTTF支持外描边(非多个方向重绘来实现描边)</a>
-      </li>
-    
   </ul>
 </section>
 
@@ -515,7 +563,7 @@ x:\Jenkins\jenkins.xml 新增蓝色粗体标记参数(-Dfile.encoding=utf-8)，�
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2016 - Wenbo Qiu -
+  Copyright &copy; 2017 - Wenbo Qiu -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 

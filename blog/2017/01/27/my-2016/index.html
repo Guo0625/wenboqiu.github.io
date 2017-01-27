@@ -1,0 +1,273 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>我的这一年 - 编程小站</title>
+  <meta name="author" content="Wenbo Qiu">
+
+  
+  <meta name="description" content="去年一月，我们的千年手游正式立项开工，到现在刚好一年。这一年经历许多，感悟良多，总结一下，与诸位分享。 这一年杂七杂八做了挺多事情的，值得说一说的倒没多少。 第一件值得分享的是，发现了一个arm mali texture compression tool(tct) mac版的bug， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://wenboqiu.github.io/blog/2017/01/27/my-2016">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="编程小站" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-48109768-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">编程小站</a></h1>
+  
+    <h2>我的编程分享</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:wenboqiu.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">我的这一年</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2017-01-27T09:56:33+08:00" pubdate data-updated="true"></time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://wenboqiu.github.io">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>去年一月，我们的千年手游正式立项开工，到现在刚好一年。这一年经历许多，感悟良多，总结一下，与诸位分享。</p>
+
+<p>这一年杂七杂八做了挺多事情的，值得说一说的倒没多少。</p>
+
+<p>第一件值得分享的是，发现了一个arm mali texture compression tool(tct) mac版的bug，将一张png图片通过tct压缩成一张上半部分带rgb通道，下半部分带alpha通道的图片，压缩完成后，alpha值相对原始的alpha值，是偏小的。经过几番与arm开发的邮件沟通，发现是因为tct使用了较老版本的ImageMagick，手动替换最新版本，应该能够解决该问题。查看arm官网，这个问题应该依然没有修复，最新的tct版本还是能够重现bug的4.3。（注：tct 4.3 win版本并没有这个bug）</p>
+
+<!--more-->
+
+
+<p>第二件值得分享的是，自己花了一两周时间，弄了一个自定义的压缩方案，支持不解压就能够对压缩包内的文件的随机读取，而且该压缩包不能被市面上其他的解压程序解压，一定程度上保护了资源的安全。之所以需要自己来造这个轮子，一方面我们有资源压缩的需求，如果不对游戏内繁多的动画帧文件进行压缩，游戏最后的包大小轻轻松松就可以到一个G。另外还有安全方面的考虑，我们可不希望美术同学的劳动成果被外界轻松获取。第三，将所有资源文件打包成一个压缩包，实际上能够加快图片文件的读取速度。本来我想从网上找一个成熟的方案来实现的，可是找来找去，就是找不到，估计是因为安全原因，大家都不愿意共享实现细节，后来也有问过热血传奇手游的同学，也是说自己实现了一个，也不方便共享出来。无奈，只好自己操刀。研究过zip压缩格式后，发现弄一个自己的压缩方案，其实并不难，并不是要再去发明一下Phil Katz大神的压缩算法，只是把经过压缩后的数据按照自己的摆放方式摆放一遍，只要跟通用的zip格式不一样，其他人就不能用外部的解压程序解压了，除非他们花很大的成本去摸索出规律来。对我们来说，这种方案是相对安全的。最后，再来吐槽一下cocos2dx官方读取zip压缩文件的设计思路，每读取一个压缩包内文件，都要new一个zip压缩包的文件头，然后遍历一遍压缩源文件目录区，直到找到目标文件为止，这样导致读取不同文件所花的时间是不一样的，而且相对很慢。为什么不在第一次加载zip压缩包时，就将压缩包内文件的开始位置给记录下来，下次访问时，就不需要重新去遍历文件目录区了。另外，官方并不支持对apk包内的zip包进行读取，apk包本身也是一个zip包。我看网上有方案是把zip包拷贝到手机的sd卡上，然后再进行读取。实际上这是没有必要的，一般情况下，cocos通过第三方的unzip模块对zip包进行读取，unzip模块支持自定义的io api，官方只使用通用文件api，我们只要在读取apk内文件时，使用android的io api即可。</p>
+
+<p>第三件事情并不是涉及技术。是关于对加班的理解。从在九城开始，自己对加班一直比较反感，觉得只要项目管理得当，就能够避免加班，很多情况的加班都是可以避免的，只要平时多努力，就不会把事情拖到很晚才去完成。这一年，对于加班有了更多的理解，因为发现公司内很多优秀的同学，并不是因为平时效率不高，事情做不完，才留下来加班，而是为了让项目更快更好的完成，为了多做一点，才留下来加班。热血传奇手游的技术担当，我发现他基本每周7天都在办公室，他工作效率不高？技术不好？我是不信的。我们这个行业藏龙卧虎，竞争激烈，不跑快一点，淘汰的就是自己。那些比我聪明的人比我更努力，还有什么理由不努力一点呢。之前一直觉得自己受不了太高强度的加班，这一年下来，差不多9个月是996，最后2个月接近997，很欣慰，自己至少坚持下来了。</p>
+
+<p>下面想说一些项目中踩过坑后的感悟，感兴趣的话，可以看一下。</p>
+
+<p>简单可依赖。这句话好像第一次是从百度那边听来的，虽然百度名声不咋地，但是我这一年对于这句话却深有感触，深表认同。这一年，不晓得对游戏中的ai重构了多少遍，最后一两个月还在重构呢，每次重构，都希望代码能够变得更简单，逻辑越清楚明了，就越不容易出错。因为逻辑太复杂而导致的bug，可不是第一次碰到了。</p>
+
+<p>对性能有要求的部分，最好用C++实现，而不是用解释型语言。最初我们全部用Lua实现了游戏ai部分，直到开始压力测试，当人数到1000多，最好的android机器也跑不动。通过一番痛苦的评估才发现，Lua和C++的效率实际上是想去甚远的，即使LuaJIT宣传说比官方的Lua实现效率有几倍的提升，但是跟C++比起来还是差很多。比如创建1万个空的lua table，在好的android机器会需要30ms，在差一些的机器上，甚至超过100ms。如果对1000个角色进行更新，每次更新会有10个新表创建，那就需要创建一万个表，即使全部是空表，最好的android机也无法流畅运行。另外，win上和andorid上创建空表的速度差别很大，在win上，创建100万个空表，才需要几毫秒。</p>
+
+<p>有性能要求的游戏，压力测试应该早开始，且伴随游戏开发，不断进行。这样的话，如果有性能瓶颈出现，能够早发现，早解决。如果等到最后发现，可不是解bug这么简单了，而是需要推翻重来。</p>
+
+<p>开始性能优化时，应该先对程序进行性能分析，找到瓶颈点，有的放矢。而不能想当然觉得某块代码性能不行，立刻开始优化，往往最后优化完成，总体性能并没有很大的提升。很多时候，优化方法没有问题，而是那块代码根本就没有被执行几次，速度最快，对总体性能也没什么影响。</p>
+
+<p>好的测试工程师真的很重要。一个好的测试能够帮助开发发现很多隐藏的问题，督促开发更加严谨的完成任务。如果测试不是很负责，会让某些不自觉的开发放松警惕，敷衍了事，因为即使他任务没弄好，测试也发现不了嘛。去年十一月十二月的公司评测，真是让我提心吊胆，本来以为某些功能应该没bug了，结果被打脸了一次又一次。真是很感谢他们。</p>
+
+<p>感悟就这么多，谢谢诸位观看，今天是大年三十，新年快乐。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Wenbo Qiu</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2017-01-27T09:56:33+08:00" pubdate data-updated="true"></time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://wenboqiu.github.io/blog/2017/01/27/my-2016/" data-via="" data-counturl="http://wenboqiu.github.io/blog/2017/01/27/my-2016/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/08/22/think-on-management/" title="Previous Post: 一点项目管理感悟">&laquo; 一点项目管理感悟</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/01/27/my-2016/">我的这一年</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/08/22/think-on-management/">一点项目管理感悟</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/03/13/fix-messy-code-of-git-commit-in-jenkins/">解决Jenkins中Git提交记录乱码的问题</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/12/26/fix-texturepacker-in-jenkins/">解决Texturepacker命令行无法在Jenkins下使用的问题</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/06/06/astar-path-finding/">A*寻路</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - Wenbo Qiu -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'wenbosblog';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://wenboqiu.github.io/blog/2017/01/27/my-2016/';
+        var disqus_url = 'http://wenboqiu.github.io/blog/2017/01/27/my-2016/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
